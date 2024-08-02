@@ -17,6 +17,9 @@ public class PessoaDto {
 	Cargo cargo;
 	List<Seguidor> seguindo;
 	List<Seguidor> seguidores;
+	List<EnderecoDto> endereco;
+	
+	
 	public Integer getPessoa_id() {
 		return pessoa_id;
 	}
@@ -77,4 +80,12 @@ public class PessoaDto {
 	public void setSeguidores(List<Seguidor> seguidores) {
 		this.seguidores = seguidores;
 	}
+	public List<EnderecoDto> getEndereco() {
+		return endereco;
+	}
+	public void setEndereco(List<EnderecoDto> endereco) {
+		this.endereco = endereco;
+	}
+	
+	
 }

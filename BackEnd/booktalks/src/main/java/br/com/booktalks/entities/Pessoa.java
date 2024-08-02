@@ -65,7 +65,7 @@ public class Pessoa {
 	private List<Seguidor> seguidores;
 	
 	@Column
-	@OneToMany(mappedBy = "pessoa")
+	@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
 	private List<Endereco> endereco;
 	
 	public Integer getPessoa_id() {

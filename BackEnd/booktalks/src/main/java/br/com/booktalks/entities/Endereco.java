@@ -8,20 +8,19 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "endereco")
 public class Endereco {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer enderecoId;
+    private Integer endereco_id;
 
     @ManyToOne
     @JoinColumn(name = "pessoa_id")
     private Pessoa pessoa;
 
-    @NotBlank
     @Column
     private String cep;
 
@@ -35,7 +34,7 @@ public class Endereco {
     private String localidade;
 
     @Column
-    private int numero;
+    private Integer numero;
 
     @Column
     private String complemento;
@@ -43,12 +42,13 @@ public class Endereco {
     @Column
     private String uf;
 
-	public Integer getEnderecoId() {
-		return enderecoId;
+
+	public Integer getEndereco_id() {
+		return endereco_id;
 	}
 
-	public void setEnderecoId(Integer enderecoId) {
-		this.enderecoId = enderecoId;
+	public void setEndereco_id(Integer endereco_id) {
+		this.endereco_id = endereco_id;
 	}
 
 	public Pessoa getPessoa() {
@@ -90,15 +90,6 @@ public class Endereco {
 	public void setLocalidade(String localidade) {
 		this.localidade = localidade;
 	}
-
-	public int getNumero() {
-		return numero;
-	}
-
-	public void setNumero(int numero) {
-		this.numero = numero;
-	}
-
 	public String getComplemento() {
 		return complemento;
 	}
@@ -114,5 +105,16 @@ public class Endereco {
 	public void setUf(String uf) {
 		this.uf = uf;
 	}
-   
+
+	public Integer getNumero() {
+		return numero;
+	}
+
+	public void setNumero(Integer numero) {
+		this.numero = numero;
+	}
+
+	
+	
+
 }

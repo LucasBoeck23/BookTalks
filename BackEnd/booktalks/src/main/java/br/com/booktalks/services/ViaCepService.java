@@ -7,7 +7,7 @@ import br.com.booktalks.entities.Endereco;
 
 @Service
 public class ViaCepService {
-
+	
     private static final String VIACEP_URL = "https://viacep.com.br/ws/{cep}/json/";
 
     public Endereco getCepInfo(String cep) {
