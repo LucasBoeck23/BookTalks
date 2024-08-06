@@ -68,6 +68,12 @@ public class Pessoa {
 	@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
 	private List<Endereco> endereco;
 	
+	@OneToMany(mappedBy = "autor")
+	private List<Livro> livros;
+	
+	@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
+	private List<Publicacao> publicacoes;
+
 	public Integer getPessoa_id() {
 		return pessoa_id;
 	}
@@ -156,8 +162,18 @@ public class Pessoa {
 		this.endereco = endereco;
 	}
 
+	public List<Livro> getLivros() {
+		return livros;
+	}
+
+	public void setLivros(List<Livro> livros) {
+		this.livros = livros;
+	}
 
 
+//	@Column
+//	private List<Publicacao> cutidos;
+//	
 //	
 //	@Column
 //	private List<Livro>carrinho;
@@ -165,12 +181,7 @@ public class Pessoa {
 //	@Column
 //	private List<Livro> favoritos;
 //	
-//	@Column
-//	private List<Publicacao> publicacoes;
-//
-//	@Column
-//	private List<Publicacao> cutidos;
-//	
+
 //	@Column
 //	private List<Publicacao> salvos;
 //	

@@ -1,0 +1,52 @@
+package br.com.booktalks.controllers;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import br.com.booktalks.dto.LivroDto;
+import br.com.booktalks.entities.Livro;
+import br.com.booktalks.services.LivroService;
+
+@RestController
+@RequestMapping("livro")
+public class LivroController {
+
+	@Autowired
+	LivroService livroService;
+	
+	@PostMapping
+	public ResponseEntity<LivroDto> post( @RequestBody Livro livro){
+		return new ResponseEntity<>(livroService.save(livro), HttpStatus.CREATED);
+	}
+	
+	@GetMapping
+	public ResponseEntity<List<LivroDto>>findAll(){
+		return new ResponseEntity<>(livroService.findAll(),HttpStatus.OK);
+	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<LivroDto> findById(@PathVariable Integer id){
+		return new ResponseEntity<>(livroService.findById(id),HttpStatus.OK);
+	}
+	
+	@PutMapping
+	public ResponseEntity<LivroDto>update(@RequestBody Livro Livro){
+		return new ResponseEntity<>(livroService.update(Livro), HttpStatus.OK);
+	}
+	@DeleteMapping("/{id}")
+	public ResponseEntity<LivroDto>delete(@PathVariable Integer id){
+		return new ResponseEntity<>(livroService.delete(id), HttpStatus.OK);
+	}
+	
+}

@@ -44,16 +44,9 @@ public class PessoaService {
 	
 		public List<PessoaDto> findAll(){
 		List<Pessoa> pessoa = pessoaRepository.findAll();
-		List<EnderecoDto> enderecoDto = new ArrayList<>();
 		List<PessoaDto> pessoaDto = new ArrayList<>();
 		for (Pessoa pessoaLista : pessoa) {
 			PessoaDto pessoaDtoLista = modelMapper.map(pessoaLista, PessoaDto.class);
-			for (Endereco enderecoLista : pessoaLista.getEndereco()) {
-				EnderecoDto enderecoDtoLista = modelMapper.map(enderecoLista, EnderecoDto.class);
-				enderecoDto.add(enderecoDtoLista);
-				pessoaDtoLista.setEndereco(enderecoDto);
-			}
-	
 			pessoaDto.add(pessoaDtoLista);
 		}
 			return pessoaDto;
