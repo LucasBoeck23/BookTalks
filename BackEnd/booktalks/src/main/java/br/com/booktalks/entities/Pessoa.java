@@ -56,15 +56,12 @@ public class Pessoa {
 	@Enumerated(EnumType.STRING)
 	private Cargo cargo;
 	
-	@Column
 	@OneToMany(mappedBy = "seguidores")
 	private List<Seguidor> seguindo;
 
-	@Column
 	@OneToMany(mappedBy = "seguindo")
 	private List<Seguidor> seguidores;
 	
-	@Column
 	@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
 	private List<Endereco> endereco;
 	
@@ -74,6 +71,9 @@ public class Pessoa {
 	@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
 	private List<Publicacao> publicacoes;
 
+	@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
+	private List<Like> Curtidas;
+	
 	public Integer getPessoa_id() {
 		return pessoa_id;
 	}
@@ -169,6 +169,23 @@ public class Pessoa {
 	public void setLivros(List<Livro> livros) {
 		this.livros = livros;
 	}
+
+	public List<Publicacao> getPublicacoes() {
+		return publicacoes;
+	}
+
+	public void setPublicacoes(List<Publicacao> publicacoes) {
+		this.publicacoes = publicacoes;
+	}
+
+	public List<Like> getCurtidas() {
+		return Curtidas;
+	}
+
+	public void setCurtidas(List<Like> curtidas) {
+		Curtidas = curtidas;
+	}
+	
 
 
 //	@Column

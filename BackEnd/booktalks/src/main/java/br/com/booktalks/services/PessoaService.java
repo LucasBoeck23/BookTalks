@@ -26,19 +26,8 @@ public class PessoaService {
 	ModelMapper modelMapper;
 	
 	  public PessoaDto save(Pessoa pessoa) {
-		  EnderecoDto enderecoDto = null;
 		  Pessoa pessoaSalva = pessoaRepository.save(pessoa); 
 		  PessoaDto pessoaDto  = modelMapper.map(pessoaSalva, PessoaDto.class);
-		  List<EnderecoDto> ListaEnderecos = new ArrayList<>();
-		  
-	        if (pessoa.getEndereco() != null) {
-	        	for (Endereco endereco : pessoaSalva.getEndereco()) {
-					endereco.setPessoa(pessoaSalva);
-					enderecoDto	= enderecoService.save(endereco.getCep(), endereco);
-					ListaEnderecos.add(enderecoDto);
-				}
-	        }
-	        pessoaDto.setEndereco(ListaEnderecos);
 	        return pessoaDto;
 	    }
 	
@@ -54,8 +43,7 @@ public class PessoaService {
 		
 		public PessoaDto findById(Integer id){
 			Pessoa pessoa = pessoaRepository.findById(id).orElse(null);
-			PessoaDto pessoaDto = modelMapper.map(pessoa, PessoaDto.class);
-			return pessoaDto;
+			return modelMapper.map(pessoa,PessoaDto.class);
 		}
 		
 		public PessoaDto update (Pessoa pessoa) {

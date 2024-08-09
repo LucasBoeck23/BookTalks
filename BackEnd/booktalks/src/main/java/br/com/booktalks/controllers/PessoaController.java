@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.booktalks.dto.LikeDto;
 import br.com.booktalks.dto.PessoaDto;
 import br.com.booktalks.entities.Pessoa;
 import br.com.booktalks.services.PessoaService;
@@ -33,7 +33,7 @@ public class PessoaController {
 	}
 	
 	@GetMapping
-	public ResponseEntity< List<PessoaDto>>findAll(){
+	public ResponseEntity<List<PessoaDto>>findAll(){
 		return new ResponseEntity<>(pessoaService.findAll(),HttpStatus.OK);
 	}
 	
@@ -41,7 +41,6 @@ public class PessoaController {
 	public ResponseEntity<PessoaDto> findById(@PathVariable Integer id){
 		return new ResponseEntity<>(pessoaService.findById(id),HttpStatus.OK);
 	}
-	
 	@PutMapping
 	public ResponseEntity<PessoaDto>update(@RequestBody Pessoa pessoa){
 		return new ResponseEntity<>(pessoaService.update(pessoa), HttpStatus.OK);

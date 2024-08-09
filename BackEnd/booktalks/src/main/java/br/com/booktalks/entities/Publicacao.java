@@ -1,5 +1,8 @@
 package br.com.booktalks.entities;
 
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -7,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
@@ -22,12 +26,15 @@ public class Publicacao {
 	@JoinColumn(name = "pessoa_id")
     private Pessoa pessoa;
 	
+	@OneToMany(mappedBy = "publicacao", cascade = CascadeType.ALL)
+	private List<Like> pessoasCurtidas;
+	
+	@Column
+	private int numeroLikes;
+	
 	@Column
 	@NotNull
 	private String conteudo;
-	
-	@Column
-	private Integer likes;
 	
 	@Column
 	private Integer republicado;
@@ -49,14 +56,6 @@ public class Publicacao {
 
 	public void setConteudo(String conteudo) {
 		this.conteudo = conteudo;
-	}
-
-	public Integer getLikes() {
-		return likes;
-	}
-
-	public void setLikes(Integer likes) {
-		this.likes = likes;
 	}
 
 	public Integer getRepublicado() {
@@ -82,5 +81,21 @@ public class Publicacao {
 	public void setPublicacao_id(Integer publicacao_id) {
 		this.publicacao_id = publicacao_id;
 	}
-	
+
+	public List<Like> getPessoasCurtidas() {
+		return pessoasCurtidas;
+	}
+
+	public void setPessoasCurtidas(List<Like> pessoasCurtidas) {
+		this.pessoasCurtidas = pessoasCurtidas;
+	}
+
+	public int getNumeroLikes() {
+		return numeroLikes;
+	}
+
+	public void setNumeroLikes(int numeroLikes) {
+		this.numeroLikes = numeroLikes;
+	}
+
 }

@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.booktalks.dto.LikeDto;
+import br.com.booktalks.dto.PessoaDto;
 import br.com.booktalks.dto.PublicacaoDto;
 import br.com.booktalks.entities.Publicacao;
 import br.com.booktalks.services.PublicacaoService;
@@ -39,14 +41,39 @@ public class PublicacaoController {
 	public ResponseEntity<PublicacaoDto> findById(@PathVariable Integer id){
 		return new ResponseEntity<>(publicacaoService.findById(id),HttpStatus.OK);
 	}
+	//retorna todos os likes que tem do banco
+	@GetMapping("/likes")
+	public ResponseEntity<List<LikeDto>> findAllLike(){
+		return new ResponseEntity<>(publicacaoService.findAllLike(),HttpStatus.OK);
+	}
+	//retorna todas as pessoas que curtiram uma publicação com o {id}
+	@GetMapping("/likes/{id}")
+	public ResponseEntity<List<PessoaDto>> findAllPessoaByPublicacao(@PathVariable Integer id){
+		return new ResponseEntity<>(publicacaoService.findPessoaByPublicacao(id),HttpStatus.OK);
+	}
+	//retorna todas as publicacoes curtidas de uma única pessoa
+	@GetMapping("likes/pessoa/{id}")
+	public ResponseEntity<List<PublicacaoDto>> findPublicacaoCurtidaByPessoa(@PathVariable Integer id){
+		return new ResponseEntity<>(publicacaoService.findPublicacaoCurtidaByPessoa(id),HttpStatus.OK);
+	}
+	//retorna todas as publicacoes criadas por uma pessoa
+	@GetMapping("/pessoa/{id}")
+	public ResponseEntity<List<PublicacaoDto>> findAllPublicacaoByPessoa(@PathVariable Integer id){
+		return new ResponseEntity<>(publicacaoService.findAllPublicacaoByPessoa(id),HttpStatus.OK);
+	}
 	
 	@PutMapping
 	public ResponseEntity<PublicacaoDto>update(@RequestBody Publicacao publicacao){
 		return new ResponseEntity<>(publicacaoService.update(publicacao), HttpStatus.OK);
 	}
+	
+	@PutMapping("/likes/{pessoaId}/{postId}")
+	public ResponseEntity<PublicacaoDto>like( @PathVariable Integer pessoaId , @PathVariable Integer postId){
+		return new ResponseEntity<>(publicacaoService.like(pessoaId,postId), HttpStatus.OK);
+	}
+	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<PublicacaoDto>delete(@PathVariable Integer id){
 		return new ResponseEntity<>(publicacaoService.delete(id), HttpStatus.OK);
 	}
-	
 }
