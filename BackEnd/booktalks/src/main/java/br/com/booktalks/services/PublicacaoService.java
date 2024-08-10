@@ -97,7 +97,7 @@ public class PublicacaoService {
 		return publicacaoDto;
 	}
 	
-	public List<PessoaDto> findPessoaByPublicacao(Integer id){
+	public List<PessoaDto> findPessoaByLikePublicacao(Integer id){
 		List<Pessoa> pessoa = likeReposirory.findPessoasByPublicacaoId(id);
 		List<PessoaDto> pessoaDto = new ArrayList<>()
 ;
@@ -172,9 +172,10 @@ public class PublicacaoService {
 		Pessoa pessoa = pessoaRepository.findById(pessoaId).orElse(null);
 		Publicacao publicacao = publicacaoRepository.findById(publicacaoId).orElse(null);
 		List<Republicado> republicacoesPessoa = republicadoRepository.findRepublicacoesByPessoaId(pessoaId);
+		Republicado novoRepublicado = new Republicado();
 		
 		for (Republicado republicadoLista : republicacoesPessoa) {
-			if(republicadoLista.getPessoa().equals(pessoa) && republicadoLista.getPublicacao().equals(publicacao));
+			if(republicadoLista.getPublicacao().equals(publicacao)) {
 				republicadoRepository.delete(republicadoLista);
 				
 				pessoa.getRepublicados().remove(republicadoLista);
@@ -182,23 +183,40 @@ public class PublicacaoService {
 				publicacao.getPessoasRepublicados().remove(republicadoLista);
 				publicacao.setNumeroRepublicados(publicacao.getNumeroRepublicados()-1);
 				publicacaoRepository.save(publicacao);
-				
-				
 				return modelMapper.map(republicadoLista, RepublicadoDto.class);
 			}
+		}
 
 		if(pessoa != null && publicacao != null) {
-			Republicado republicado = new Republicado();
-			republicado.setPessoa(pessoa);
-			republicado.setPublicacao(publicacao);
+			novoRepublicado.setPessoa(pessoa);
+			novoRepublicado.setPublicacao(publicacao);
 			publicacao.setNumeroRepublicados(publicacao.getNumeroRepublicados()+1);
-			republicadoRepository.save(republicado);
+			republicadoRepository.save(novoRepublicado);
 			publicacaoRepository.save(publicacao);
-			return modelMapper.map(republicado, RepublicadoDto.class);
+			return modelMapper.map(novoRepublicado, RepublicadoDto.class);
 		}
 		
 		return null;
 	}
+	
+	public List<RepublicadoDto> findAllRepublicados(){
+		List<Republicado> republicado = republicadoRepository.findAll();
+		List<RepublicadoDto> republicadoDto = new ArrayList<>();
+		for (Republicado republicadoLista : republicado) {
+		republicadoDto.add(modelMapper.map(republicadoLista, RepublicadoDto.class));
+		}
+		return republicadoDto;
+	}
+	
+	public List<PessoaDto> findAllPessoaByRepublicados(Integer id){
+		List<Pessoa> pessoa = republicadoRepository.findPessoasByRepublicacaoId(id);
+		List<PessoaDto> pessoaDto = new ArrayList<>();
+		for (Pessoa pessoaLista : pessoa) {
+			pessoaDto.add(modelMapper.map(pessoaLista, PessoaDto.class));
+		}
+		return pessoaDto;
+	}
+	
 	
 	//-------------Citação-------------//
 	

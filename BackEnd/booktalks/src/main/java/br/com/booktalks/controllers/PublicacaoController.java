@@ -61,9 +61,9 @@ public class PublicacaoController {
 		return new ResponseEntity<>(publicacaoService.findAllLike(),HttpStatus.OK);
 	}
 	//retorna todas as pessoas que curtiram uma publicação com o {id}
-	@GetMapping("/likes/{id}")
+	@GetMapping("/likes/publicacao/{id}")
 	public ResponseEntity<List<PessoaDto>> findAllPessoaByPublicacao(@PathVariable Integer id){
-		return new ResponseEntity<>(publicacaoService.findPessoaByPublicacao(id),HttpStatus.OK);
+		return new ResponseEntity<>(publicacaoService.findPessoaByLikePublicacao(id),HttpStatus.OK);
 	}
 	//retorna todas as publicacoes curtidas de uma única pessoa
 	@GetMapping("likes/pessoa/{id}")
@@ -79,9 +79,21 @@ public class PublicacaoController {
 
 	//----------REPUBLICADOS----------//
 	
+	//funcao de republicar
 	@PutMapping("/republicar/{pessoaId}/{postId}")
 	public ResponseEntity<RepublicadoDto> republicar( @PathVariable Integer pessoaId , @PathVariable Integer postId){
 		return new ResponseEntity<>(publicacaoService.republicar(pessoaId, postId), HttpStatus.OK);
+	}
+	
+	//pega todos as republicações
+	@GetMapping("/republicados")
+	public ResponseEntity<List<RepublicadoDto>> findAllRepublicados(){
+		return new ResponseEntity<>(publicacaoService.findAllRepublicados(), HttpStatus.OK);
+	}
+	//
+	@GetMapping("/republicados/publicacao/{id}")
+	public ResponseEntity<List<PessoaDto>> findAllPessoaByRepublicados(@PathVariable Integer id){
+		return new ResponseEntity<>(publicacaoService.findAllPessoaByRepublicados(id), HttpStatus.OK);
 	}
 	
 	//----------Citação----------//
