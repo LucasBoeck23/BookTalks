@@ -8,15 +8,21 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.booktalks.dto.CitacaoDto;
 import br.com.booktalks.dto.LikeDto;
 import br.com.booktalks.dto.PessoaDto;
 import br.com.booktalks.dto.PublicacaoDto;
+import br.com.booktalks.dto.RepublicadoDto;
+import br.com.booktalks.entities.Citacao;
 import br.com.booktalks.entities.Like;
 import br.com.booktalks.entities.Pessoa;
 import br.com.booktalks.entities.Publicacao;
+import br.com.booktalks.entities.Republicado;
+import br.com.booktalks.repositories.CitacaoRepository;
 import br.com.booktalks.repositories.LikeReposirory;
 import br.com.booktalks.repositories.PessoaRepository;
 import br.com.booktalks.repositories.PublicacaoRepository;
+import br.com.booktalks.repositories.RepublicadoRepository;
 
 @Service
 public class PublicacaoService {
@@ -29,6 +35,12 @@ public class PublicacaoService {
 
 	@Autowired
 	LikeReposirory likeReposirory;
+
+	@Autowired
+	RepublicadoRepository republicadoRepository;
+	
+	@Autowired
+	CitacaoRepository citacaoRepository;
 	
 	@Autowired
 	ModelMapper modelMapper;
@@ -53,6 +65,17 @@ public class PublicacaoService {
 		}	
 		return publicacaoDto;
 	}
+	
+	public PublicacaoDto findById(Integer id) {
+		Publicacao publicacao = publicacaoRepository.findById(id).orElse(null);
+		if(publicacao == null) {
+			return null;
+		}
+		return modelMapper.map(publicacao, PublicacaoDto.class);
+	}
+	
+	//-----------Metodos extras de publicacao / like / Republicado / Citação / comentario /-------------------//
+	
 	public List<LikeDto> findAllLike() {
 		List<Like> like = likeReposirory.findAll();
 		List<LikeDto> likeDto = new ArrayList<>();
@@ -61,14 +84,6 @@ public class PublicacaoService {
 			likeDto.add(likeDtoLista);
 		}
 		return likeDto;
-	}
-	
-	public PublicacaoDto findById(Integer id) {
-		Publicacao publicacao = publicacaoRepository.findById(id).orElse(null);
-		if(publicacao == null) {
-			return null;
-		}
-		return modelMapper.map(publicacao, PublicacaoDto.class);
 	}
 	
 	public List<PublicacaoDto> findPublicacaoCurtidaByPessoa (Integer id){
@@ -103,31 +118,6 @@ public class PublicacaoService {
 		return publicacaoDto;
 	}
 	
-	public PublicacaoDto update (Publicacao publicacao) {
-		Publicacao publicacaoBanco = publicacaoRepository.findById(publicacao.getPublicacao_id()).orElse(null);
-		
-		if(publicacaoBanco == null) {
-			return null;
-		}
-		if(publicacao.getPessoa() == null) {
-			publicacao.setPessoa(publicacaoBanco.getPessoa());
-		}
-		if(publicacao.getConteudo() == null) {
-			publicacao.setConteudo(publicacaoBanco.getConteudo());
-		}
-		if(publicacao.getFavorito() == null) {
-			publicacao.setFavorito(publicacaoBanco.getFavorito());
-		}
-		if(publicacao.getPessoasCurtidas() == null) {
-			publicacao.setPessoasCurtidas(publicacaoBanco.getPessoasCurtidas());
-		}
-		if(publicacao.getRepublicado() == null) {
-			publicacao.setRepublicado(publicacaoBanco.getRepublicado());
-		}
-		publicacao.setNumeroLikes(publicacaoBanco.getNumeroLikes());
-		publicacaoRepository.save(publicacao);
-		return modelMapper.map(publicacao, PublicacaoDto.class);
-	}
 	
 	public PublicacaoDto like (Integer pessoaId, Integer postId) {
 		Pessoa pessoa = pessoaRepository.findById(pessoaId).orElse(null);
@@ -174,6 +164,79 @@ public class PublicacaoService {
 		return modelMapper.map(publicacao, PublicacaoDto.class);
 		}
 		return null;
+	}
+	
+	//-------------Republicar-------------//
+	
+	public RepublicadoDto republicar (Integer pessoaId ,Integer publicacaoId) {
+		Pessoa pessoa = pessoaRepository.findById(pessoaId).orElse(null);
+		Publicacao publicacao = publicacaoRepository.findById(publicacaoId).orElse(null);
+		List<Republicado> republicacoesPessoa = republicadoRepository.findRepublicacoesByPessoaId(pessoaId);
+		
+		for (Republicado republicadoLista : republicacoesPessoa) {
+			if(republicadoLista.getPessoa().equals(pessoa) && republicadoLista.getPublicacao().equals(publicacao));
+				republicadoRepository.delete(republicadoLista);
+				
+				pessoa.getRepublicados().remove(republicadoLista);
+				pessoaRepository.save(pessoa);
+				publicacao.getPessoasRepublicados().remove(republicadoLista);
+				publicacao.setNumeroRepublicados(publicacao.getNumeroRepublicados()-1);
+				publicacaoRepository.save(publicacao);
+				
+				
+				return modelMapper.map(republicadoLista, RepublicadoDto.class);
+			}
+
+		if(pessoa != null && publicacao != null) {
+			Republicado republicado = new Republicado();
+			republicado.setPessoa(pessoa);
+			republicado.setPublicacao(publicacao);
+			publicacao.setNumeroRepublicados(publicacao.getNumeroRepublicados()+1);
+			republicadoRepository.save(republicado);
+			publicacaoRepository.save(publicacao);
+			return modelMapper.map(republicado, RepublicadoDto.class);
+		}
+		
+		return null;
+	}
+	
+	//-------------Citação-------------//
+	
+	public CitacaoDto citar (Integer pessoaId ,Integer publicacaoId,Citacao citacao) {
+		Pessoa pessoa = pessoaRepository.findById(pessoaId).orElse(null);
+		Publicacao publicacao = publicacaoRepository.findById(publicacaoId).orElse(null);
+		
+		if(pessoa != null && publicacao != null) {
+		citacao.setPessoa(pessoa);
+		citacao.setPublicacao(publicacao);
+		citacaoRepository.save(citacao);
+		return modelMapper.map(citacao, CitacaoDto.class);
+		}
+		return null;
+	}
+	
+	//------------------FIM------------------//
+	
+	public PublicacaoDto update (Publicacao publicacao) {
+		Publicacao publicacaoBanco = publicacaoRepository.findById(publicacao.getPublicacao_id()).orElse(null);
+		
+		if(publicacaoBanco == null) {
+			return null;
+		}
+		if(publicacao.getPessoa() == null) {
+			publicacao.setPessoa(publicacaoBanco.getPessoa());
+		}
+		if(publicacao.getConteudo() == null) {
+			publicacao.setConteudo(publicacaoBanco.getConteudo());
+		}
+		if(publicacao.getPessoasCurtidas() == null) {
+			publicacao.setPessoasCurtidas(publicacaoBanco.getPessoasCurtidas());
+		}
+		publicacao.setNumeroLikes(publicacaoBanco.getNumeroLikes());
+		publicacao.setNumeroRepublicados(publicacaoBanco.getNumeroRepublicados());
+		publicacao.setNumeroFavoritos(publicacaoBanco.getNumeroFavoritos());
+		publicacaoRepository.save(publicacao);
+		return modelMapper.map(publicacao, PublicacaoDto.class);
 	}
 	
 	public PublicacaoDto delete (Integer id) {

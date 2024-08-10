@@ -4,11 +4,9 @@ public class PublicacaoDto {
 	Integer publicacao_id;
 	PessoaDto pessoa;
 	String conteudo;
-	Integer likes;
-	Integer republicado;
-	Integer favorito;
-	
-	
+	int numeroLikes;
+	int numeroRepublicados;
+	int numeroFavoritos;
 	public Integer getPublicacao_id() {
 		return publicacao_id;
 	}
@@ -27,22 +25,23 @@ public class PublicacaoDto {
 	public void setConteudo(String conteudo) {
 		this.conteudo = conteudo;
 	}
-	public Integer getLikes() {
-		return likes;
+	public int getNumeroLikes() {
+		return numeroLikes;
 	}
-	public void setLikes(Integer likes) {
-		this.likes = likes;
+	public void setNumeroLikes(int numeroLikes) {
+		this.numeroLikes = numeroLikes;
 	}
-	public Integer getRepublicado() {
-		return republicado;
+	public int getNumeroRepublicados() {
+		return numeroRepublicados;
 	}
-	public void setRepublicado(Integer republicado) {
-		this.republicado = republicado;
+	public void setNumeroRepublicados(int numeroRepublicados) {
+		this.numeroRepublicados = numeroRepublicados;
 	}
-	public Integer getFavorito() {
-		return favorito;
+	public int getNumeroFavoritos() {
+		return numeroFavoritos;
 	}
-	public void setFavorito(Integer favorito) {
-		this.favorito = favorito;
+	public void setNumeroFavoritos(int numeroFavoritos) {
+		this.numeroFavoritos = numeroFavoritos;
 	}
+	
 }

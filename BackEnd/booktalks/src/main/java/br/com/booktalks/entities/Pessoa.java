@@ -74,6 +74,12 @@ public class Pessoa {
 	@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
 	private List<Like> Curtidas;
 	
+	@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
+	private List<Republicado> Republicados;
+	
+	@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
+	private List<Citacao> citacoes;
+	
 	public Integer getPessoa_id() {
 		return pessoa_id;
 	}
@@ -185,6 +191,23 @@ public class Pessoa {
 	public void setCurtidas(List<Like> curtidas) {
 		Curtidas = curtidas;
 	}
+
+	public List<Republicado> getRepublicados() {
+		return Republicados;
+	}
+
+	public void setRepublicados(List<Republicado> republicados) {
+		Republicados = republicados;
+	}
+
+	public List<Citacao> getCitacoes() {
+		return citacoes;
+	}
+
+	public void setCitacoes(List<Citacao> citacoes) {
+		this.citacoes = citacoes;
+	}
+	
 	
 
 

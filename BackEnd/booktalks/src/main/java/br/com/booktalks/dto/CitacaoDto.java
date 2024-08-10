@@ -1,10 +1,24 @@
 package br.com.booktalks.dto;
 
-public class LikeDto {
-	Integer like_id;
+public class CitacaoDto {
+	
+	Integer citacaoId;
+	String descricao;
 	PessoaDto pessoa;
 	PublicacaoDto publicacao;
 	
+	public Integer getCitacaoId() {
+		return citacaoId;
+	}
+	public void setCitacaoId(Integer citacaoId) {
+		this.citacaoId = citacaoId;
+	}
+	public String getDescricao() {
+		return descricao;
+	}
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
 	public PessoaDto getPessoa() {
 		return pessoa;
 	}
@@ -16,12 +30,6 @@ public class LikeDto {
 	}
 	public void setPublicacao(PublicacaoDto publicacao) {
 		this.publicacao = publicacao;
-	}
-	public Integer getLike_id() {
-		return like_id;
-	}
-	public void setLike_id(Integer like_id) {
-		this.like_id = like_id;
 	}
 	
 }

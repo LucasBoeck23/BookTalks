@@ -29,6 +29,12 @@ public class Publicacao {
 	@OneToMany(mappedBy = "publicacao", cascade = CascadeType.ALL)
 	private List<Like> pessoasCurtidas;
 	
+	@OneToMany(mappedBy = "publicacao", cascade = CascadeType.ALL)
+	private List<Republicado> pessoasRepublicados;
+	
+	@OneToMany(mappedBy = "publicacao", cascade = CascadeType.ALL)
+	private List<Citacao> pessoasCitacoes;
+	
 	@Column
 	private int numeroLikes;
 	
@@ -37,42 +43,10 @@ public class Publicacao {
 	private String conteudo;
 	
 	@Column
-	private Integer republicado;
+	private int numeroRepublicados;
 	
 	@Column
-	private Integer favorito;
-
-	public Pessoa getPessoa() {
-		return pessoa;
-	}
-
-	public void setPessoa(Pessoa pessoa) {
-		this.pessoa = pessoa;
-	}
-
-	public String getConteudo() {
-		return conteudo;
-	}
-
-	public void setConteudo(String conteudo) {
-		this.conteudo = conteudo;
-	}
-
-	public Integer getRepublicado() {
-		return republicado;
-	}
-
-	public void setRepublicado(Integer republicado) {
-		this.republicado = republicado;
-	}
-
-	public Integer getFavorito() {
-		return favorito;
-	}
-
-	public void setFavorito(Integer favorito) {
-		this.favorito = favorito;
-	}
+	private int numeroFavoritos;
 
 	public Integer getPublicacao_id() {
 		return publicacao_id;
@@ -80,6 +54,14 @@ public class Publicacao {
 
 	public void setPublicacao_id(Integer publicacao_id) {
 		this.publicacao_id = publicacao_id;
+	}
+
+	public Pessoa getPessoa() {
+		return pessoa;
+	}
+
+	public void setPessoa(Pessoa pessoa) {
+		this.pessoa = pessoa;
 	}
 
 	public List<Like> getPessoasCurtidas() {
@@ -90,6 +72,22 @@ public class Publicacao {
 		this.pessoasCurtidas = pessoasCurtidas;
 	}
 
+	public List<Republicado> getPessoasRepublicados() {
+		return pessoasRepublicados;
+	}
+
+	public void setPessoasRepublicados(List<Republicado> pessoasRepublicados) {
+		this.pessoasRepublicados = pessoasRepublicados;
+	}
+
+	public List<Citacao> getPessoasCitacoes() {
+		return pessoasCitacoes;
+	}
+
+	public void setPessoasCitacoes(List<Citacao> pessoasCitacoes) {
+		this.pessoasCitacoes = pessoasCitacoes;
+	}
+
 	public int getNumeroLikes() {
 		return numeroLikes;
 	}
@@ -98,4 +96,27 @@ public class Publicacao {
 		this.numeroLikes = numeroLikes;
 	}
 
+	public String getConteudo() {
+		return conteudo;
+	}
+
+	public void setConteudo(String conteudo) {
+		this.conteudo = conteudo;
+	}
+
+	public int getNumeroRepublicados() {
+		return numeroRepublicados;
+	}
+
+	public void setNumeroRepublicados(int numeroRepublicados) {
+		this.numeroRepublicados = numeroRepublicados;
+	}
+
+	public int getNumeroFavoritos() {
+		return numeroFavoritos;
+	}
+
+	public void setNumeroFavoritos(int numeroFavoritos) {
+		this.numeroFavoritos = numeroFavoritos;
+	}
 }

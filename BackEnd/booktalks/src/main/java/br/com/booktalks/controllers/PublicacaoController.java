@@ -14,10 +14,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.booktalks.dto.CitacaoDto;
 import br.com.booktalks.dto.LikeDto;
 import br.com.booktalks.dto.PessoaDto;
 import br.com.booktalks.dto.PublicacaoDto;
+import br.com.booktalks.dto.RepublicadoDto;
+import br.com.booktalks.entities.Citacao;
 import br.com.booktalks.entities.Publicacao;
+import br.com.booktalks.entities.Republicado;
 import br.com.booktalks.services.PublicacaoService;
 
 @RestController
@@ -41,6 +45,16 @@ public class PublicacaoController {
 	public ResponseEntity<PublicacaoDto> findById(@PathVariable Integer id){
 		return new ResponseEntity<>(publicacaoService.findById(id),HttpStatus.OK);
 	}
+	
+	//-----------Controllers de like, republicado e comentarios------------//
+	
+	//------------LIKE----------//
+
+	@PutMapping("/likes/{pessoaId}/{postId}")
+	public ResponseEntity<PublicacaoDto>like( @PathVariable Integer pessoaId , @PathVariable Integer postId){
+		return new ResponseEntity<>(publicacaoService.like(pessoaId,postId), HttpStatus.OK);
+	}
+	
 	//retorna todos os likes que tem do banco
 	@GetMapping("/likes")
 	public ResponseEntity<List<LikeDto>> findAllLike(){
@@ -62,15 +76,29 @@ public class PublicacaoController {
 		return new ResponseEntity<>(publicacaoService.findAllPublicacaoByPessoa(id),HttpStatus.OK);
 	}
 	
+
+	//----------REPUBLICADOS----------//
+	
+	@PutMapping("/republicar/{pessoaId}/{postId}")
+	public ResponseEntity<RepublicadoDto> republicar( @PathVariable Integer pessoaId , @PathVariable Integer postId){
+		return new ResponseEntity<>(publicacaoService.republicar(pessoaId, postId), HttpStatus.OK);
+	}
+	
+	//----------Citação----------//
+	
+	@PutMapping("/citar/{pessoaId}/{postId}")
+	public ResponseEntity<CitacaoDto> citar ( @PathVariable Integer pessoaId , @PathVariable Integer postId, @RequestBody Citacao citacao){
+		return new ResponseEntity<>(publicacaoService.citar(pessoaId, postId, citacao), HttpStatus.OK);
+	}
+	
+	
+	//------------------------------- FIM --------------------------------//
+	
 	@PutMapping
 	public ResponseEntity<PublicacaoDto>update(@RequestBody Publicacao publicacao){
 		return new ResponseEntity<>(publicacaoService.update(publicacao), HttpStatus.OK);
 	}
 	
-	@PutMapping("/likes/{pessoaId}/{postId}")
-	public ResponseEntity<PublicacaoDto>like( @PathVariable Integer pessoaId , @PathVariable Integer postId){
-		return new ResponseEntity<>(publicacaoService.like(pessoaId,postId), HttpStatus.OK);
-	}
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<PublicacaoDto>delete(@PathVariable Integer id){
