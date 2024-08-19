@@ -1,4 +1,5 @@
 package br.com.booktalks.entities;
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -26,6 +27,18 @@ public class Citacao {
 	
 	@Column
 	private String descricao;
+	
+	@Column
+	private int numeroLikes;
+	
+	@Column
+	private int numeroRepublicados;
+	
+	@Column
+	private int numeroFavoritos;
+	
+	@Column
+	private LocalDate dataCitacao;
 
 	public Integer getCitacaoId() {
 		return citacaoId;
@@ -57,6 +70,38 @@ public class Citacao {
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+
+	public int getNumeroLikes() {
+		return numeroLikes;
+	}
+
+	public void setNumeroLikes(int numeroLikes) {
+		this.numeroLikes = numeroLikes;
+	}
+
+	public int getNumeroRepublicados() {
+		return numeroRepublicados;
+	}
+
+	public void setNumeroRepublicados(int numeroRepublicados) {
+		this.numeroRepublicados = numeroRepublicados;
+	}
+
+	public int getNumeroFavoritos() {
+		return numeroFavoritos;
+	}
+
+	public void setNumeroFavoritos(int numeroFavoritos) {
+		this.numeroFavoritos = numeroFavoritos;
+	}
+
+	public LocalDate getDataCitacao() {
+		return dataCitacao;
+	}
+
+	public void setDataCitacao(LocalDate dataCitacao) {
+		this.dataCitacao = dataCitacao;
 	}
 	
 }

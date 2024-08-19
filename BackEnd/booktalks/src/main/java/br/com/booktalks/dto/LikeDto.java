@@ -5,6 +5,7 @@ public class LikeDto {
 	PessoaDto pessoa;
 	PublicacaoDto publicacao;
 	
+	
 	public PessoaDto getPessoa() {
 		return pessoa;
 	}

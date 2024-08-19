@@ -1,5 +1,7 @@
 package br.com.booktalks.dto;
 
+import java.time.LocalDate;
+
 public class PublicacaoDto {
 	Integer publicacao_id;
 	PessoaDto pessoa;
@@ -7,6 +9,9 @@ public class PublicacaoDto {
 	int numeroLikes;
 	int numeroRepublicados;
 	int numeroFavoritos;
+	int numeroComentarios;
+	LocalDate dataPublicacao;
+	
 	public Integer getPublicacao_id() {
 		return publicacao_id;
 	}
@@ -42,6 +47,18 @@ public class PublicacaoDto {
 	}
 	public void setNumeroFavoritos(int numeroFavoritos) {
 		this.numeroFavoritos = numeroFavoritos;
+	}
+	public LocalDate getDataPublicacao() {
+		return dataPublicacao;
+	}
+	public void setDataPublicacao(LocalDate dataPublicacao) {
+		this.dataPublicacao = dataPublicacao;
+	}
+	public int getNumeroComentarios() {
+		return numeroComentarios;
+	}
+	public void setNumeroComentarios(int numeroComentarios) {
+		this.numeroComentarios = numeroComentarios;
 	}
 	
 }

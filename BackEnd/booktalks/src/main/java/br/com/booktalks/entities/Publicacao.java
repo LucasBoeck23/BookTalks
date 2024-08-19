@@ -1,5 +1,6 @@
 package br.com.booktalks.entities;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -34,9 +35,15 @@ public class Publicacao {
 	
 	@OneToMany(mappedBy = "publicacao", cascade = CascadeType.ALL)
 	private List<Citacao> pessoasCitacoes;
+
+	@OneToMany(mappedBy = "publicacao", cascade = CascadeType.ALL)
+	private List<Comentario> pessoasComentarios;
 	
 	@Column
 	private int numeroLikes;
+	
+	@Column
+	private LocalDate dataPublicacao;
 	
 	@Column
 	@NotNull
@@ -47,6 +54,9 @@ public class Publicacao {
 	
 	@Column
 	private int numeroFavoritos;
+
+	@Column
+	private int numeroComentarios;
 
 	public Integer getPublicacao_id() {
 		return publicacao_id;
@@ -119,4 +129,29 @@ public class Publicacao {
 	public void setNumeroFavoritos(int numeroFavoritos) {
 		this.numeroFavoritos = numeroFavoritos;
 	}
+
+	public LocalDate getDataPublicacao() {
+		return dataPublicacao;
+	}
+
+	public void setDataPublicacao(LocalDate dataPublicacao) {
+		this.dataPublicacao = dataPublicacao;
+	}
+
+	public List<Comentario> getPessoasComentarios() {
+		return pessoasComentarios;
+	}
+
+	public void setPessoasComentarios(List<Comentario> pessoasComentarios) {
+		this.pessoasComentarios = pessoasComentarios;
+	}
+
+	public int getNumeroComentarios() {
+		return numeroComentarios;
+	}
+
+	public void setNumeroComentarios(int numeroComentarios) {
+		this.numeroComentarios = numeroComentarios;
+	}
+	
 }

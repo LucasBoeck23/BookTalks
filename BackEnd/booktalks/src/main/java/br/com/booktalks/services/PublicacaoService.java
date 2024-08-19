@@ -1,5 +1,6 @@
 package br.com.booktalks.services;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -8,17 +9,17 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.booktalks.dto.CitacaoDto;
+import br.com.booktalks.dto.ComentarioDto;
 import br.com.booktalks.dto.LikeDto;
 import br.com.booktalks.dto.PessoaDto;
 import br.com.booktalks.dto.PublicacaoDto;
 import br.com.booktalks.dto.RepublicadoDto;
-import br.com.booktalks.entities.Citacao;
+import br.com.booktalks.entities.Comentario;
 import br.com.booktalks.entities.Like;
 import br.com.booktalks.entities.Pessoa;
 import br.com.booktalks.entities.Publicacao;
 import br.com.booktalks.entities.Republicado;
-import br.com.booktalks.repositories.CitacaoRepository;
+import br.com.booktalks.repositories.ComentarioRepository;
 import br.com.booktalks.repositories.LikeReposirory;
 import br.com.booktalks.repositories.PessoaRepository;
 import br.com.booktalks.repositories.PublicacaoRepository;
@@ -40,7 +41,7 @@ public class PublicacaoService {
 	RepublicadoRepository republicadoRepository;
 	
 	@Autowired
-	CitacaoRepository citacaoRepository;
+	ComentarioRepository comentarioRepository;
 	
 	@Autowired
 	ModelMapper modelMapper;
@@ -49,6 +50,8 @@ public class PublicacaoService {
 		Optional<Pessoa> pessoa = pessoaRepository.findById(publicacao.getPessoa().getPessoa_id());
 		PessoaDto pessoaDto = new PessoaDto();
 		pessoaDto = modelMapper.map(pessoa, PessoaDto.class);
+		
+		publicacao.setDataPublicacao(LocalDate.now());
 		Publicacao publicacaoSalva = publicacaoRepository.save(publicacao);
 		PublicacaoDto publicacaoDto = modelMapper.map(publicacaoSalva, PublicacaoDto.class);
 		publicacaoDto.setPessoa(pessoaDto);
@@ -74,7 +77,7 @@ public class PublicacaoService {
 		return modelMapper.map(publicacao, PublicacaoDto.class);
 	}
 	
-	//-----------Metodos extras de publicacao / like / Republicado / Citação / comentario /-------------------//
+	//-----------Metodos extras de publicacao / like / Republicado  / comentario /-------------------//
 	
 	public List<LikeDto> findAllLike() {
 		List<Like> like = likeReposirory.findAll();
@@ -119,11 +122,11 @@ public class PublicacaoService {
 	}
 	
 	
-	public PublicacaoDto like (Integer pessoaId, Integer postId) {
+	public LikeDto like (Integer pessoaId, Integer postId) {
 		Pessoa pessoa = pessoaRepository.findById(pessoaId).orElse(null);
 		Publicacao publicacao = publicacaoRepository.findById(postId).orElse(null);
 		Like Novolike = new Like();
-		List<Like> likeBanco = likeReposirory.findAll();
+		List<Like> likeBanco = likeReposirory.findAllLikesByPessoaId(pessoaId);
 		
 		for (Like like : likeBanco) {
 			if(like.getPessoa().equals(pessoa) && like.getPublicacao().equals(publicacao)) {
@@ -140,7 +143,7 @@ public class PublicacaoService {
 				publicacao.setNumeroLikes(publicacao.getNumeroLikes()-1);
 				publicacaoRepository.save(publicacao);
 				
-				return modelMapper.map(publicacao, PublicacaoDto.class);
+				return modelMapper.map(like, LikeDto.class);
 			}
 		}
 		
@@ -161,7 +164,7 @@ public class PublicacaoService {
 		publicacao.setNumeroLikes(publicacao.getNumeroLikes()+1);
 		publicacaoRepository.save(publicacao);
 		
-		return modelMapper.map(publicacao, PublicacaoDto.class);
+		return modelMapper.map(Novolike, LikeDto.class);
 		}
 		return null;
 	}
@@ -217,20 +220,55 @@ public class PublicacaoService {
 		return pessoaDto;
 	}
 	
+	public List<RepublicadoDto> findRepublicacoesByPessoaId(Integer id){
+		List<Republicado> republicados = republicadoRepository.findRepublicacoesByPessoaId(id);
+		List<RepublicadoDto> republicadoDto = new ArrayList<>();
+		for (Republicado republicado : republicados) {
+			RepublicadoDto republicadoDtoLista = modelMapper.map(republicado, RepublicadoDto.class);
+			republicadoDto.add(republicadoDtoLista);
+		}
+		return republicadoDto;
+	}
 	
-	//-------------Citação-------------//
+	//---------------COMENTARIO---------------//
 	
-	public CitacaoDto citar (Integer pessoaId ,Integer publicacaoId,Citacao citacao) {
+	public ComentarioDto comentar(Integer pessoaId , Integer publicacaoId, Comentario comentario) {
 		Pessoa pessoa = pessoaRepository.findById(pessoaId).orElse(null);
 		Publicacao publicacao = publicacaoRepository.findById(publicacaoId).orElse(null);
 		
-		if(pessoa != null && publicacao != null) {
-		citacao.setPessoa(pessoa);
-		citacao.setPublicacao(publicacao);
-		citacaoRepository.save(citacao);
-		return modelMapper.map(citacao, CitacaoDto.class);
+		comentario.setPessoa(pessoa);
+		comentario.setPublicacao(publicacao);
+		
+		pessoa.getComentarios().add(comentario);
+		publicacao.getPessoasComentarios().add(comentario);
+		publicacao.setNumeroComentarios(publicacao.getNumeroComentarios() + 1);
+		
+		comentarioRepository.save(comentario);
+		ComentarioDto comentarioDto = modelMapper.map(comentario, ComentarioDto.class);
+		pessoaRepository.save(pessoa);
+		publicacaoRepository.save(publicacao);
+		
+		return comentarioDto;
+	}
+	
+	public ComentarioDto excluirComentario (Integer comentarioId){
+		Optional<Comentario> comentario = comentarioRepository.findById(comentarioId);
+		if(comentario.isPresent()) {
+			comentarioRepository.deleteById(comentarioId);
+			return modelMapper.map(comentario, ComentarioDto.class);
 		}
 		return null;
+	}
+	
+	public List<ComentarioDto> findAllComentarios(){
+	List<Comentario> comentario = comentarioRepository.findAll();
+	List<ComentarioDto> comentarioDto = new ArrayList<>();
+	
+	for (Comentario comentarioLista : comentario) {
+		ComentarioDto comentarioDtoLista = modelMapper.map(comentarioLista, ComentarioDto.class);
+		comentarioDto.add(comentarioDtoLista);
+	}
+		return comentarioDto;
 	}
 	
 	//------------------FIM------------------//
@@ -250,6 +288,7 @@ public class PublicacaoService {
 		if(publicacao.getPessoasCurtidas() == null) {
 			publicacao.setPessoasCurtidas(publicacaoBanco.getPessoasCurtidas());
 		}
+		publicacao.setDataPublicacao(publicacaoBanco.getDataPublicacao());
 		publicacao.setNumeroLikes(publicacaoBanco.getNumeroLikes());
 		publicacao.setNumeroRepublicados(publicacaoBanco.getNumeroRepublicados());
 		publicacao.setNumeroFavoritos(publicacaoBanco.getNumeroFavoritos());

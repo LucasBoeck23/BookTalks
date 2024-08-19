@@ -18,4 +18,6 @@ public interface LikeReposirory extends JpaRepository<Like, Integer>{
 	  @Query("SELECT l.pessoa FROM Like l WHERE l.publicacao.id = :idPublicacao")
 	  List<Pessoa>findPessoasByPublicacaoId(@Param("idPublicacao") Integer idPublicacao);
 	  
+	  @Query("SELECT l FROM Like l WHERE l.pessoa.id = :idPessoa")
+	  List<Like>findAllLikesByPessoaId(@Param("idPessoa") Integer idPessoa);
 }

@@ -1,5 +1,6 @@
 package br.com.booktalks.services;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,9 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.booktalks.dto.EnderecoDto;
 import br.com.booktalks.dto.PessoaDto;
-import br.com.booktalks.entities.Endereco;
 import br.com.booktalks.entities.Pessoa;
 import br.com.booktalks.repositories.PessoaRepository;
 
@@ -26,6 +25,7 @@ public class PessoaService {
 	ModelMapper modelMapper;
 	
 	  public PessoaDto save(Pessoa pessoa) {
+		  pessoa.setDataCriacao(LocalDate.now());
 		  Pessoa pessoaSalva = pessoaRepository.save(pessoa); 
 		  PessoaDto pessoaDto  = modelMapper.map(pessoaSalva, PessoaDto.class);
 	        return pessoaDto;
@@ -74,6 +74,7 @@ public class PessoaService {
 			if(pessoa.getNomeUsuario() == null){
 				pessoa.setNomeUsuario(pessoabanco.getNomeUsuario());
 			}
+			pessoa.setDataCriacao(pessoabanco.getDataCriacao());
 			pessoa.setEndereco(null);
 			pessoa.setSeguidores(null);
 			pessoa.setSeguindo(null);

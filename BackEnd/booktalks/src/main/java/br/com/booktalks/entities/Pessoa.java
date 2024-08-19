@@ -9,11 +9,9 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
@@ -56,6 +54,9 @@ public class Pessoa {
 	@Enumerated(EnumType.STRING)
 	private Cargo cargo;
 	
+	@Column
+	private LocalDate dataCriacao;
+	
 	@OneToMany(mappedBy = "seguidores")
 	private List<Seguidor> seguindo;
 
@@ -79,6 +80,10 @@ public class Pessoa {
 	
 	@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
 	private List<Citacao> citacoes;
+	
+	@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
+	private List<Comentario> comentarios;
+	
 	
 	public Integer getPessoa_id() {
 		return pessoa_id;
@@ -207,14 +212,25 @@ public class Pessoa {
 	public void setCitacoes(List<Citacao> citacoes) {
 		this.citacoes = citacoes;
 	}
+
+	public LocalDate getDataCriacao() {
+		return dataCriacao;
+	}
+
+	public void setDataCriacao(LocalDate dataCriacao) {
+		this.dataCriacao = dataCriacao;
+	}
+
+	public List<Comentario> getComentarios() {
+		return comentarios;
+	}
+
+	public void setComentarios(List<Comentario> comentarios) {
+		this.comentarios = comentarios;
+	}
 	
 	
-
-
-//	@Column
-//	private List<Publicacao> cutidos;
-//	
-//	
+	
 //	@Column
 //	private List<Livro>carrinho;
 //

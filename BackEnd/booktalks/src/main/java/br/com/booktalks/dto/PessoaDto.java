@@ -1,9 +1,7 @@
 package br.com.booktalks.dto;
 
 import java.time.LocalDate;
-import java.util.List;
 
-import br.com.booktalks.entities.Seguidor;
 import br.com.booktalks.enums.Cargo;
 
 public class PessoaDto {
@@ -14,6 +12,7 @@ public class PessoaDto {
 	LocalDate dataNascimento;
 	String email;
 	String senha;
+	LocalDate dataCriacao;
 	Cargo cargo;
 	
 	public Integer getPessoa_id() {
@@ -64,5 +63,12 @@ public class PessoaDto {
 	public void setCargo(Cargo cargo) {
 		this.cargo = cargo;
 	}
+	public LocalDate getDataCriacao() {
+		return dataCriacao;
+	}
+	public void setDataCriacao(LocalDate dataCriacao) {
+		this.dataCriacao = dataCriacao;
+	}
+	
 	
 }

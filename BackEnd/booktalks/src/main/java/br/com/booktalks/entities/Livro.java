@@ -1,5 +1,7 @@
 package br.com.booktalks.entities;
 
+import java.time.LocalDate;
+
 import br.com.booktalks.enums.Categoria;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -38,6 +40,13 @@ public class Livro {
 	
 	@Column
 	private Double preco;
+	
+	@Column
+	private String editora;
+	
+	@Column
+	private LocalDate dataPublicacao;
+	
 	
 	@Column
 	@Enumerated(EnumType.STRING)
@@ -123,6 +132,23 @@ public class Livro {
 	public void setAutor(Pessoa autor) {
 		this.autor = autor;
 	}
+
+	public String getEditora() {
+		return editora;
+	}
+
+	public void setEditora(String editora) {
+		this.editora = editora;
+	}
+
+	public LocalDate getDataPublicacao() {
+		return dataPublicacao;
+	}
+
+	public void setDataPublicacao(LocalDate dataPublicacao) {
+		this.dataPublicacao = dataPublicacao;
+	}
+	
 	//capadolivro
 	
 }

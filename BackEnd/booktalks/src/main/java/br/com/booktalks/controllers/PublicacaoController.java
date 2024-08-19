@@ -14,14 +14,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.booktalks.dto.CitacaoDto;
+import br.com.booktalks.dto.ComentarioDto;
 import br.com.booktalks.dto.LikeDto;
 import br.com.booktalks.dto.PessoaDto;
 import br.com.booktalks.dto.PublicacaoDto;
 import br.com.booktalks.dto.RepublicadoDto;
-import br.com.booktalks.entities.Citacao;
+import br.com.booktalks.entities.Comentario;
 import br.com.booktalks.entities.Publicacao;
-import br.com.booktalks.entities.Republicado;
 import br.com.booktalks.services.PublicacaoService;
 
 @RestController
@@ -51,7 +50,7 @@ public class PublicacaoController {
 	//------------LIKE----------//
 
 	@PutMapping("/likes/{pessoaId}/{postId}")
-	public ResponseEntity<PublicacaoDto>like( @PathVariable Integer pessoaId , @PathVariable Integer postId){
+	public ResponseEntity<LikeDto>like( @PathVariable Integer pessoaId , @PathVariable Integer postId){
 		return new ResponseEntity<>(publicacaoService.like(pessoaId,postId), HttpStatus.OK);
 	}
 	
@@ -90,19 +89,33 @@ public class PublicacaoController {
 	public ResponseEntity<List<RepublicadoDto>> findAllRepublicados(){
 		return new ResponseEntity<>(publicacaoService.findAllRepublicados(), HttpStatus.OK);
 	}
-	//
+	//pega as pessoas que republicaram
 	@GetMapping("/republicados/publicacao/{id}")
 	public ResponseEntity<List<PessoaDto>> findAllPessoaByRepublicados(@PathVariable Integer id){
 		return new ResponseEntity<>(publicacaoService.findAllPessoaByRepublicados(id), HttpStatus.OK);
 	}
+	//pega todas as republicações de uma pessoa
+	@GetMapping("/republicados/pessoa/{id}")
+	public ResponseEntity<List<RepublicadoDto>> findRepublicacoesByPessoaId(@PathVariable Integer id){
+		return new ResponseEntity<>(publicacaoService.findRepublicacoesByPessoaId(id), HttpStatus.OK);
+	}
+		
+	//------------------Comentario--------------------//
 	
-	//----------Citação----------//
-	
-	@PutMapping("/citar/{pessoaId}/{postId}")
-	public ResponseEntity<CitacaoDto> citar ( @PathVariable Integer pessoaId , @PathVariable Integer postId, @RequestBody Citacao citacao){
-		return new ResponseEntity<>(publicacaoService.citar(pessoaId, postId, citacao), HttpStatus.OK);
+	@PutMapping("/comentar/{pessoaId}/{publicacaoId}")
+	public ResponseEntity<ComentarioDto> comentar ( @PathVariable Integer pessoaId , @PathVariable Integer publicacaoId, @RequestBody Comentario comentario){
+		return new ResponseEntity<>(publicacaoService.comentar(pessoaId, publicacaoId, comentario), HttpStatus.OK);
 	}
 	
+	@DeleteMapping("/comentar/excluir/{id}")
+	public ResponseEntity<ComentarioDto> excluir (@PathVariable Integer id){
+		return new ResponseEntity<>(publicacaoService.excluirComentario(id), HttpStatus.OK);
+	}
+	
+	@GetMapping("/comentar")
+	public ResponseEntity<List<ComentarioDto>> findAllComentarios(){
+		return new ResponseEntity<>(publicacaoService.findAllComentarios(), HttpStatus.OK);
+	}
 	
 	//------------------------------- FIM --------------------------------//
 	
