@@ -33,8 +33,8 @@ public class Publicacao {
 	@OneToMany(mappedBy = "publicacao", cascade = CascadeType.ALL)
 	private List<Republicado> pessoasRepublicados;
 	
-	@OneToMany(mappedBy = "publicacao", cascade = CascadeType.ALL)
-	private List<Citacao> pessoasCitacoes;
+//	@OneToMany(mappedBy = "publicacao", cascade = CascadeType.ALL)
+//	private List<Citacao> pessoasCitacoes;
 
 	@OneToMany(mappedBy = "publicacao", cascade = CascadeType.ALL)
 	private List<Comentario> pessoasComentarios;
@@ -88,14 +88,6 @@ public class Publicacao {
 
 	public void setPessoasRepublicados(List<Republicado> pessoasRepublicados) {
 		this.pessoasRepublicados = pessoasRepublicados;
-	}
-
-	public List<Citacao> getPessoasCitacoes() {
-		return pessoasCitacoes;
-	}
-
-	public void setPessoasCitacoes(List<Citacao> pessoasCitacoes) {
-		this.pessoasCitacoes = pessoasCitacoes;
 	}
 
 	public int getNumeroLikes() {

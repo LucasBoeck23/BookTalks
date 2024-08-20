@@ -271,6 +271,25 @@ public class PublicacaoService {
 		return comentarioDto;
 	}
 	
+	public List<ComentarioDto> findComentariosByPessoaId (Integer pessoaId){
+		List<Comentario> comentario = comentarioRepository.findComentariosByPessoaId(pessoaId);
+		List<ComentarioDto> comentarioDto = new ArrayList<>();
+		
+		for (Comentario comentarioLista : comentario) {
+			comentarioDto.add(modelMapper.map(comentarioLista, ComentarioDto.class));
+		}
+		return comentarioDto;
+	}
+	public List<ComentarioDto> findComentariosByPublicacaoId (Integer publicacaoId){
+		List<Comentario> comentario = comentarioRepository.findComentariosByPublicacaoId(publicacaoId);
+		List<ComentarioDto> comentarioDto = new ArrayList<>();
+		
+		for (Comentario comentarioLista : comentario) {
+			comentarioDto.add(modelMapper.map(comentarioLista, ComentarioDto.class));
+		}
+		return comentarioDto;
+	}
+	
 	//------------------FIM------------------//
 	
 	public PublicacaoDto update (Publicacao publicacao) {

@@ -112,10 +112,19 @@ public class PublicacaoController {
 		return new ResponseEntity<>(publicacaoService.excluirComentario(id), HttpStatus.OK);
 	}
 	
-	@GetMapping("/comentar")
+	@GetMapping("/comentarios")
 	public ResponseEntity<List<ComentarioDto>> findAllComentarios(){
 		return new ResponseEntity<>(publicacaoService.findAllComentarios(), HttpStatus.OK);
 	}
+	@GetMapping("/comentarios/pessoa/{pessoaId}")
+	public ResponseEntity<List<ComentarioDto>> findComentariosByPessoaId(@PathVariable Integer pessoaId){
+		return new ResponseEntity<>(publicacaoService.findComentariosByPessoaId(pessoaId), HttpStatus.OK);
+	}
+	@GetMapping("/comentarios/publicacao/{publicacaoId}")
+	public ResponseEntity<List<ComentarioDto>> findComentariosByPublicacaoId(@PathVariable Integer publicacaoId){
+		return new ResponseEntity<>(publicacaoService.findComentariosByPublicacaoId(publicacaoId), HttpStatus.OK);
+	}
+	
 	
 	//------------------------------- FIM --------------------------------//
 	

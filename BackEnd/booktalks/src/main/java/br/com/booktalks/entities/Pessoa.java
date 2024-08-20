@@ -78,8 +78,8 @@ public class Pessoa {
 	@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
 	private List<Republicado> Republicados;
 	
-	@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
-	private List<Citacao> citacoes;
+//	@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
+//	private List<Citacao> citacoes;
 	
 	@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
 	private List<Comentario> comentarios;
@@ -204,15 +204,6 @@ public class Pessoa {
 	public void setRepublicados(List<Republicado> republicados) {
 		Republicados = republicados;
 	}
-
-	public List<Citacao> getCitacoes() {
-		return citacoes;
-	}
-
-	public void setCitacoes(List<Citacao> citacoes) {
-		this.citacoes = citacoes;
-	}
-
 	public LocalDate getDataCriacao() {
 		return dataCriacao;
 	}
