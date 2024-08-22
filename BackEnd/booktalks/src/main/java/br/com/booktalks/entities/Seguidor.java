@@ -14,30 +14,22 @@ package br.com.booktalks.entities;
 	    
 	    @Id
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	    private Integer id;
+	    private Integer seguidor_Id;
 	    
 	    @ManyToOne
-	    @JoinColumn(name = "seguidores_id")
-	    private Pessoa seguidores;
+		@JoinColumn(name = "pessoa_seguindo_id")
+		private Pessoa seguindo;
 	    
 	    @ManyToOne
-	    @JoinColumn(name = "seguindo_id")
-	    private Pessoa seguindo;
+	    @JoinColumn(name = "pessoa_id")
+	    private Pessoa pessoa;
 
-		public Integer getId() {
-			return id;
+		public Integer getSeguidor_Id() {
+			return seguidor_Id;
 		}
 
-		public void setId(Integer id) {
-			this.id = id;
-		}
-
-		public Pessoa getSeguidores() {
-			return seguidores;
-		}
-
-		public void setSeguidores(Pessoa seguidores) {
-			this.seguidores = seguidores;
+		public void setSeguidor_Id(Integer seguidor_Id) {
+			this.seguidor_Id = seguidor_Id;
 		}
 
 		public Pessoa getSeguindo() {
@@ -48,6 +40,15 @@ package br.com.booktalks.entities;
 			this.seguindo = seguindo;
 		}
 
+		public Pessoa getPessoa() {
+			return pessoa;
+		}
+
+		public void setPessoa(Pessoa pessoa) {
+			this.pessoa = pessoa;
+		}
+
+		
 		
 	}
 

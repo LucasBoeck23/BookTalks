@@ -20,6 +20,7 @@ import br.com.booktalks.entities.Pessoa;
 import br.com.booktalks.entities.Publicacao;
 import br.com.booktalks.entities.Republicado;
 import br.com.booktalks.repositories.ComentarioRepository;
+import br.com.booktalks.repositories.FavoritoRepository;
 import br.com.booktalks.repositories.LikeReposirory;
 import br.com.booktalks.repositories.PessoaRepository;
 import br.com.booktalks.repositories.PublicacaoRepository;
@@ -42,6 +43,9 @@ public class PublicacaoService {
 	
 	@Autowired
 	ComentarioRepository comentarioRepository;
+	
+	@Autowired
+	FavoritoRepository favoritoRepository;
 	
 	@Autowired
 	ModelMapper modelMapper;

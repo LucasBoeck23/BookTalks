@@ -13,6 +13,8 @@ public class PessoaDto {
 	String email;
 	String senha;
 	LocalDate dataCriacao;
+	int numeroSeguidores;
+	int numeroSeguindo;
 	Cargo cargo;
 	
 	public Integer getPessoa_id() {
@@ -68,6 +70,18 @@ public class PessoaDto {
 	}
 	public void setDataCriacao(LocalDate dataCriacao) {
 		this.dataCriacao = dataCriacao;
+	}
+	public int getNumeroSeguidores() {
+		return numeroSeguidores;
+	}
+	public void setNumeroSeguidores(int numeroSeguidores) {
+		this.numeroSeguidores = numeroSeguidores;
+	}
+	public int getNumeroSeguindo() {
+		return numeroSeguindo;
+	}
+	public void setNumeroSeguindo(int numeroSeguindo) {
+		this.numeroSeguindo = numeroSeguindo;
 	}
 	
 	

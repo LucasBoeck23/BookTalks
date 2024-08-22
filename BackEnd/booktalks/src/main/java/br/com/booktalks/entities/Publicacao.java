@@ -31,6 +31,9 @@ public class Publicacao {
 	private List<Like> pessoasCurtidas;
 	
 	@OneToMany(mappedBy = "publicacao", cascade = CascadeType.ALL)
+	private List<Favorito> pessoasFavoritos;
+	
+	@OneToMany(mappedBy = "publicacao", cascade = CascadeType.ALL)
 	private List<Republicado> pessoasRepublicados;
 	
 //	@OneToMany(mappedBy = "publicacao", cascade = CascadeType.ALL)
@@ -144,6 +147,14 @@ public class Publicacao {
 
 	public void setNumeroComentarios(int numeroComentarios) {
 		this.numeroComentarios = numeroComentarios;
+	}
+
+	public List<Favorito> getPessoasFavoritos() {
+		return pessoasFavoritos;
+	}
+
+	public void setPessoasFavoritos(List<Favorito> pessoasFavoritos) {
+		this.pessoasFavoritos = pessoasFavoritos;
 	}
 	
 }

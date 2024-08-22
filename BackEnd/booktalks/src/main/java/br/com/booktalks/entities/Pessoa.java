@@ -51,17 +51,18 @@ public class Pessoa {
 	private String senha;
 	
 	@Column
+	private int numeroSeguidores;
+	
+	@Column
+	private int numeroSeguindo;
+	
+	
+	@Column
 	@Enumerated(EnumType.STRING)
 	private Cargo cargo;
 	
 	@Column
 	private LocalDate dataCriacao;
-	
-	@OneToMany(mappedBy = "seguidores")
-	private List<Seguidor> seguindo;
-
-	@OneToMany(mappedBy = "seguindo")
-	private List<Seguidor> seguidores;
 	
 	@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
 	private List<Endereco> endereco;
@@ -78,11 +79,17 @@ public class Pessoa {
 	@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
 	private List<Republicado> Republicados;
 	
-//	@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
-//	private List<Citacao> citacoes;
+	@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
+	private List<Favorito> favoritados;
 	
 	@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
 	private List<Comentario> comentarios;
+	
+	@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
+	private List<Seguidor> seguidores;
+	
+	@OneToMany(mappedBy = "seguindo", cascade = CascadeType.ALL)
+	private List<Seguidor> seguindo;
 	
 	
 	public Integer getPessoa_id() {
@@ -149,14 +156,6 @@ public class Pessoa {
 		this.cargo = cargo;
 	}
 
-	public List<Seguidor> getSeguindo() {
-		return seguindo;
-	}
-
-	public void setSeguindo(List<Seguidor> seguindo) {
-		this.seguindo = seguindo;
-	}
-
 	public List<Seguidor> getSeguidores() {
 		return seguidores;
 	}
@@ -219,19 +218,38 @@ public class Pessoa {
 	public void setComentarios(List<Comentario> comentarios) {
 		this.comentarios = comentarios;
 	}
-	
-	
-	
-//	@Column
-//	private List<Livro>carrinho;
-//
-//	@Column
-//	private List<Livro> favoritos;
-//	
 
-//	@Column
-//	private List<Publicacao> salvos;
-//	
+	public List<Favorito> getFavoritados() {
+		return favoritados;
+	}
+
+	public void setFavoritados(List<Favorito> favoritados) {
+		this.favoritados = favoritados;
+	}
+
+	public List<Seguidor> getSeguindo() {
+		return seguindo;
+	}
+
+	public void setSeguindo(List<Seguidor> seguindo) {
+		this.seguindo = seguindo;
+	}
+
+	public int getNumeroSeguidores() {
+		return numeroSeguidores;
+	}
+
+	public void setNumeroSeguidores(int numeroSeguidores) {
+		this.numeroSeguidores = numeroSeguidores;
+	}
+
+	public int getNumeroSeguindo() {
+		return numeroSeguindo;
+	}
+
+	public void setNumeroSeguindo(int numeroSeguindo) {
+		this.numeroSeguindo = numeroSeguindo;
+	}
 	
 	
 }
