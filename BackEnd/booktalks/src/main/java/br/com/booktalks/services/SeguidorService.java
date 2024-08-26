@@ -1,11 +1,13 @@
 package br.com.booktalks.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.booktalks.dto.PessoaDto;
 import br.com.booktalks.dto.SeguidorDto;
 import br.com.booktalks.entities.Pessoa;
 import br.com.booktalks.entities.Seguidor;
@@ -64,4 +66,25 @@ public class SeguidorService {
 		}
 		return null;
 	}
+	
+	public List<PessoaDto> findAllSeguidoresByPessoaId (Integer pessoaId){
+		List<Seguidor> seguidor = seguidorRepository.findAllSeguidoresByPessoaId(pessoaId);
+		List<PessoaDto> pessoaLista = new ArrayList<>();
+		
+		for (Seguidor seguidorLista : seguidor) {
+			pessoaLista.add(modelMapper.map(seguidorLista.getSeguindo(), PessoaDto.class));
+		}
+		return pessoaLista;
+	}
+	
+	public List<PessoaDto> findAllSeguindoByPessoaId (Integer pessoaId){
+		List<Seguidor> seguidor = seguidorRepository.findAllSeguindoByPessoaId(pessoaId);
+		List<PessoaDto> pessoaLista = new ArrayList<>();
+		
+		for (Seguidor seguidorLista : seguidor) {
+			pessoaLista.add(modelMapper.map(seguidorLista.getPessoa(), PessoaDto.class));
+		}
+		return pessoaLista;
+	}
+	
 }

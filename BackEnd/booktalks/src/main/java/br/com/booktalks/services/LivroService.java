@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.booktalks.dto.LivroDto;
 import br.com.booktalks.dto.PessoaDto;
+import br.com.booktalks.entities.Avaliacao;
 import br.com.booktalks.entities.Livro;
 import br.com.booktalks.entities.Pessoa;
 import br.com.booktalks.repositories.LivroRepository;
@@ -31,6 +32,7 @@ public class LivroService {
 		Optional<Pessoa> pessoa = pessoaRepository.findById(livro.getAutor().getPessoa_id());
 		PessoaDto pessoaDto = new PessoaDto();
 		pessoaDto = modelMapper.map(pessoa, PessoaDto.class);
+		livro.setAvaliacao(null);
 		Livro livroSalvo = livroRepository.save(livro);
 		LivroDto livroDto = modelMapper.map(livroSalvo, LivroDto.class);
 		livroDto.setAutor(pessoaDto);
@@ -54,6 +56,16 @@ public class LivroService {
 			return null;
 		}
 		return modelMapper.map(livro, LivroDto.class);
+	}
+	
+	public List<LivroDto> findAllLivrosByPessoaId (Integer pessoaId){
+		List<Livro> livros = livroRepository.findAlLivrosByPessoaId(pessoaId);
+		List<LivroDto> livrosDto = new ArrayList<>();
+		
+		for (Livro livroLista : livros) {
+			livrosDto.add(modelMapper.map(livroLista, LivroDto.class));
+		}
+		return livrosDto;	
 	}
 	
 	public LivroDto update (Livro livro) {
@@ -88,6 +100,11 @@ public class LivroService {
 		}
 		livroRepository.save(livro);
 		return modelMapper.map(livro, LivroDto.class);
+	}
+	
+	public LivroDto avaliar(Avaliacao avaliacao, Integer produtoId) {
+		
+		return null;
 	}
 	
 	public LivroDto delete (Integer id) {

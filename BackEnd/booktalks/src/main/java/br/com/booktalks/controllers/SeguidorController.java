@@ -31,3 +31,8 @@ public class SeguidorController {
 	public ResponseEntity<List<PessoaDto>> findAllSeguidoresByPessoaId (@PathVariable Integer pessoaId){
 		return new ResponseEntity<>(seguidorService.findAllSeguidoresByPessoaId(pessoaId),HttpStatus.OK);
 	}
+	@GetMapping("seguindo/{pessoaId}")
+	public ResponseEntity<List<PessoaDto>> findAllSeguindoByPessoaId (@PathVariable Integer pessoaId){
+		return new ResponseEntity<>(seguidorService.findAllSeguindoByPessoaId(pessoaId),HttpStatus.OK);
+	}
+}

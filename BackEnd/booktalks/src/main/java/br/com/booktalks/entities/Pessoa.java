@@ -91,6 +91,9 @@ public class Pessoa {
 	@OneToMany(mappedBy = "seguindo", cascade = CascadeType.ALL)
 	private List<Seguidor> seguindo;
 	
+	@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
+	private List<Avaliacao> avaliacao;
+	
 	
 	public Integer getPessoa_id() {
 		return pessoa_id;
@@ -249,6 +252,14 @@ public class Pessoa {
 
 	public void setNumeroSeguindo(int numeroSeguindo) {
 		this.numeroSeguindo = numeroSeguindo;
+	}
+
+	public List<Avaliacao> getAvaliacao() {
+		return avaliacao;
+	}
+
+	public void setAvaliacao(List<Avaliacao> avaliacao) {
+		this.avaliacao = avaliacao;
 	}
 	
 	

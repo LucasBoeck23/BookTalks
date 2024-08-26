@@ -1,8 +1,10 @@
 package br.com.booktalks.entities;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import br.com.booktalks.enums.Categoria;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -11,6 +13,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -61,6 +64,9 @@ public class Livro {
 	@ManyToOne
 	private Pessoa autor;
 
+	@OneToMany(mappedBy = "livro", cascade = CascadeType.ALL)
+	private List<Avaliacao> avaliacoes;
+	
 	public Integer getLivro_id() {
 		return livro_id;
 	}
@@ -147,6 +153,14 @@ public class Livro {
 
 	public void setDataPublicacao(LocalDate dataPublicacao) {
 		this.dataPublicacao = dataPublicacao;
+	}
+
+	public List<Avaliacao> getAvaliacoes() {
+		return avaliacoes;
+	}
+
+	public void setAvaliacoes(List<Avaliacao> avaliacoes) {
+		this.avaliacoes = avaliacoes;
 	}
 	
 	//capadolivro
