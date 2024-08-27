@@ -54,11 +54,21 @@ public class LivroController {
 	public ResponseEntity<LivroDto>update(@RequestBody Livro Livro){
 		return new ResponseEntity<>(livroService.update(Livro), HttpStatus.OK);
 	}
-	
+	//------------------avaliar-------------------//
 	@PutMapping("/avaliar/{produtoId}")
 	public ResponseEntity<AvaliacaoDto> avaliar (@RequestBody Avaliacao avaliacao, @PathVariable Integer produtoId){
 		return new ResponseEntity<>(avaliacaoService.avaliar(avaliacao,produtoId), HttpStatus.OK);
 	}
+	
+	@GetMapping("/avaliar/pessoa/{pessoaId}")
+	public ResponseEntity<List<AvaliacaoDto>> findAllAvaliacoesByPessoaId (@PathVariable Integer pessoaId){
+		return new ResponseEntity<>(avaliacaoService.findAllAvaliacoesByPessoaId(pessoaId), HttpStatus.OK);
+	}
+	@GetMapping("/avaliar/Livro/{livroId}")
+	public ResponseEntity<List<AvaliacaoDto>> findAllAvaliacoesByLivroId (@PathVariable Integer livroId){
+		return new ResponseEntity<>(avaliacaoService.findAllAvaliacoesByLivroId(livroId), HttpStatus.OK);
+	}
+	//---------------Fim------------//
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<LivroDto>delete(@PathVariable Integer id){

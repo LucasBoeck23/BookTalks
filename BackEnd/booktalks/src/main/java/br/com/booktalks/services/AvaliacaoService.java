@@ -2,6 +2,7 @@ package br.com.booktalks.services;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,24 @@ public class AvaliacaoService {
 		}
 		
 		return null;
+	}
+	
+	public List<AvaliacaoDto> findAllAvaliacoesByPessoaId (Integer pessoaId){
+		List<Avaliacao> avaliacao = avaliacaoRepository.findAllAvaliacoesByPessoaId(pessoaId);
+		List<AvaliacaoDto> avaliacaoDto = new ArrayList<>();
+		for (Avaliacao avaliacaoLista : avaliacao) {
+			avaliacaoDto.add(modelMapper.map(avaliacaoLista, AvaliacaoDto.class));
+		}
+		return avaliacaoDto;
+	}
+	
+	public List<AvaliacaoDto> findAllAvaliacoesByLivroId (Integer livroId){
+		List<Avaliacao> avaliacao = avaliacaoRepository.findAllAvaliacoesByLivroId(livroId);
+		List<AvaliacaoDto> avaliacaoDto = new ArrayList<>();
+		for (Avaliacao avaliacaoLista : avaliacao) {
+			avaliacaoDto.add(modelMapper.map(avaliacaoLista, AvaliacaoDto.class));
+		}
+		return avaliacaoDto;
 	}
 	
 	public AvaliacaoDto excluir (Integer Id) {

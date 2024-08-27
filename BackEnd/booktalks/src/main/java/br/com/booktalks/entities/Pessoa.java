@@ -13,6 +13,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -93,6 +94,10 @@ public class Pessoa {
 	
 	@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
 	private List<Avaliacao> avaliacao;
+	
+	@OneToOne(mappedBy = "pessoa", cascade = CascadeType.ALL)
+	private Carrinho carrinho;
+	
 	
 	
 	public Integer getPessoa_id() {
@@ -260,6 +265,14 @@ public class Pessoa {
 
 	public void setAvaliacao(List<Avaliacao> avaliacao) {
 		this.avaliacao = avaliacao;
+	}
+
+	public Carrinho getCarrinho() {
+		return carrinho;
+	}
+
+	public void setCarrinho(Carrinho carrinho) {
+		this.carrinho = carrinho;
 	}
 	
 	

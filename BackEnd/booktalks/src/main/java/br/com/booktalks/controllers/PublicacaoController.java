@@ -99,32 +99,6 @@ public class PublicacaoController {
 	public ResponseEntity<List<RepublicadoDto>> findRepublicacoesByPessoaId(@PathVariable Integer id){
 		return new ResponseEntity<>(publicacaoService.findRepublicacoesByPessoaId(id), HttpStatus.OK);
 	}
-		
-	//------------------Comentario--------------------//
-	
-	@PutMapping("/comentar/{pessoaId}/{publicacaoId}")
-	public ResponseEntity<ComentarioDto> comentar ( @PathVariable Integer pessoaId , @PathVariable Integer publicacaoId, @RequestBody Comentario comentario){
-		return new ResponseEntity<>(publicacaoService.comentar(pessoaId, publicacaoId, comentario), HttpStatus.OK);
-	}
-	
-	@DeleteMapping("/comentar/excluir/{id}")
-	public ResponseEntity<ComentarioDto> excluir (@PathVariable Integer id){
-		return new ResponseEntity<>(publicacaoService.excluirComentario(id), HttpStatus.OK);
-	}
-	
-	@GetMapping("/comentarios")
-	public ResponseEntity<List<ComentarioDto>> findAllComentarios(){
-		return new ResponseEntity<>(publicacaoService.findAllComentarios(), HttpStatus.OK);
-	}
-	@GetMapping("/comentarios/pessoa/{pessoaId}")
-	public ResponseEntity<List<ComentarioDto>> findComentariosByPessoaId(@PathVariable Integer pessoaId){
-		return new ResponseEntity<>(publicacaoService.findComentariosByPessoaId(pessoaId), HttpStatus.OK);
-	}
-	@GetMapping("/comentarios/publicacao/{publicacaoId}")
-	public ResponseEntity<List<ComentarioDto>> findComentariosByPublicacaoId(@PathVariable Integer publicacaoId){
-		return new ResponseEntity<>(publicacaoService.findComentariosByPublicacaoId(publicacaoId), HttpStatus.OK);
-	}
-	
 	
 	//------------------------------- FIM --------------------------------//
 	
