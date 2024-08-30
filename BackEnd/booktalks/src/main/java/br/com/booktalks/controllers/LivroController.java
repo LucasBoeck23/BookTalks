@@ -22,7 +22,7 @@ import br.com.booktalks.services.AvaliacaoService;
 import br.com.booktalks.services.LivroService;
 
 @RestController
-@RequestMapping("livro")
+@RequestMapping("/livro")
 public class LivroController {
 
 	@Autowired
@@ -64,7 +64,7 @@ public class LivroController {
 	public ResponseEntity<List<AvaliacaoDto>> findAllAvaliacoesByPessoaId (@PathVariable Integer pessoaId){
 		return new ResponseEntity<>(avaliacaoService.findAllAvaliacoesByPessoaId(pessoaId), HttpStatus.OK);
 	}
-	@GetMapping("/avaliar/Livro/{livroId}")
+	@GetMapping("/avaliar/livro/{livroId}")
 	public ResponseEntity<List<AvaliacaoDto>> findAllAvaliacoesByLivroId (@PathVariable Integer livroId){
 		return new ResponseEntity<>(avaliacaoService.findAllAvaliacoesByLivroId(livroId), HttpStatus.OK);
 	}

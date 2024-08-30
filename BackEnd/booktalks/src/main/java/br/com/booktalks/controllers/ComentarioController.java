@@ -24,7 +24,7 @@ public class ComentarioController {
 	@Autowired
 	ComentarioService comentarioService;
 	
-	@PutMapping("/{pessoaId}/{publicacaoId}")
+	@PutMapping("/comentar/{pessoaId}/{publicacaoId}")
 	public ResponseEntity<ComentarioDto> comentar ( @PathVariable Integer pessoaId , @PathVariable Integer publicacaoId, @RequestBody Comentario comentario){
 		return new ResponseEntity<>(comentarioService.comentar(pessoaId, publicacaoId, comentario), HttpStatus.OK);
 	}

@@ -45,63 +45,6 @@ public class PublicacaoController {
 		return new ResponseEntity<>(publicacaoService.findById(id),HttpStatus.OK);
 	}
 	
-	//-----------Controllers de like, republicado e comentarios------------//
-	
-	//------------LIKE----------//
-
-	@PutMapping("/likes/{pessoaId}/{postId}")
-	public ResponseEntity<LikeDto>like( @PathVariable Integer pessoaId , @PathVariable Integer postId){
-		return new ResponseEntity<>(publicacaoService.like(pessoaId,postId), HttpStatus.OK);
-	}
-	
-	//retorna todos os likes que tem do banco
-	@GetMapping("/likes")
-	public ResponseEntity<List<LikeDto>> findAllLike(){
-		return new ResponseEntity<>(publicacaoService.findAllLike(),HttpStatus.OK);
-	}
-	//retorna todas as pessoas que curtiram uma publicação com o {id}
-	@GetMapping("/likes/publicacao/{id}")
-	public ResponseEntity<List<PessoaDto>> findAllPessoaByPublicacao(@PathVariable Integer id){
-		return new ResponseEntity<>(publicacaoService.findPessoaByLikePublicacao(id),HttpStatus.OK);
-	}
-	//retorna todas as publicacoes curtidas de uma única pessoa
-	@GetMapping("likes/pessoa/{id}")
-	public ResponseEntity<List<PublicacaoDto>> findPublicacaoCurtidaByPessoa(@PathVariable Integer id){
-		return new ResponseEntity<>(publicacaoService.findPublicacaoCurtidaByPessoa(id),HttpStatus.OK);
-	}
-	//retorna todas as publicacoes criadas por uma pessoa
-	@GetMapping("/pessoa/{id}")
-	public ResponseEntity<List<PublicacaoDto>> findAllPublicacaoByPessoa(@PathVariable Integer id){
-		return new ResponseEntity<>(publicacaoService.findAllPublicacaoByPessoa(id),HttpStatus.OK);
-	}
-	
-
-	//----------REPUBLICADOS----------//
-	
-	//funcao de republicar
-	@PutMapping("/republicar/{pessoaId}/{postId}")
-	public ResponseEntity<RepublicadoDto> republicar( @PathVariable Integer pessoaId , @PathVariable Integer postId){
-		return new ResponseEntity<>(publicacaoService.republicar(pessoaId, postId), HttpStatus.OK);
-	}
-	
-	//pega todos as republicações
-	@GetMapping("/republicados")
-	public ResponseEntity<List<RepublicadoDto>> findAllRepublicados(){
-		return new ResponseEntity<>(publicacaoService.findAllRepublicados(), HttpStatus.OK);
-	}
-	//pega as pessoas que republicaram
-	@GetMapping("/republicados/publicacao/{id}")
-	public ResponseEntity<List<PessoaDto>> findAllPessoaByRepublicados(@PathVariable Integer id){
-		return new ResponseEntity<>(publicacaoService.findAllPessoaByRepublicados(id), HttpStatus.OK);
-	}
-	//pega todas as republicações de uma pessoa
-	@GetMapping("/republicados/pessoa/{id}")
-	public ResponseEntity<List<RepublicadoDto>> findRepublicacoesByPessoaId(@PathVariable Integer id){
-		return new ResponseEntity<>(publicacaoService.findRepublicacoesByPessoaId(id), HttpStatus.OK);
-	}
-	
-	//------------------------------- FIM --------------------------------//
-	
 	@PutMapping
 	public ResponseEntity<PublicacaoDto>update(@RequestBody Publicacao publicacao){
 		return new ResponseEntity<>(publicacaoService.update(publicacao), HttpStatus.OK);
