@@ -3,6 +3,7 @@ package br.com.booktalks.entities;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,6 +28,9 @@ public class Carrinho {
 	 
 	 @OneToMany(mappedBy = "carrinho", cascade = CascadeType.ALL, orphanRemoval = true)
 	 private List<ItemCarrinho> itens;
+	 
+	 @Column
+	 private int quantidadeItens;
 
 	public Integer getCarrinho_id() {
 		return carrinho_id;
@@ -50,6 +54,14 @@ public class Carrinho {
 
 	public void setItens(List<ItemCarrinho> itens) {
 		this.itens = itens;
+	}
+
+	public int getQuantidadeItens() {
+		return quantidadeItens;
+	}
+
+	public void setQuantidadeItens(int quantidadeItens) {
+		this.quantidadeItens = quantidadeItens;
 	}
 	 
 	

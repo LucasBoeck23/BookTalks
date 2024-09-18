@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.booktalks.dto.PessoaDto;
+import br.com.booktalks.entities.Carrinho;
 import br.com.booktalks.entities.Pessoa;
+import br.com.booktalks.repositories.CarrinhoRepository;
 import br.com.booktalks.repositories.PessoaRepository;
 
 @Service
@@ -17,6 +19,9 @@ public class PessoaService {
 
 	@Autowired
 	PessoaRepository pessoaRepository;
+	
+	@Autowired
+	CarrinhoRepository carrinhoRepository;
 	
 	@Autowired 
 	EnderecoService enderecoService;
@@ -28,7 +33,12 @@ public class PessoaService {
 		  pessoa.setDataCriacao(LocalDate.now());
 		  Pessoa pessoaSalva = pessoaRepository.save(pessoa); 
 		  PessoaDto pessoaDto  = modelMapper.map(pessoaSalva, PessoaDto.class);
-	        return pessoaDto;
+		  
+		  Carrinho carrinho = new Carrinho();
+		  carrinho.setPessoa(pessoaSalva);
+		  carrinhoRepository.save(carrinho);
+		  
+		  return pessoaDto;
 	    }
 	
 		public List<PessoaDto> findAll(){

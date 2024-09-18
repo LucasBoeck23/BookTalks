@@ -1,11 +1,13 @@
 package br.com.booktalks.dto;
 
+import java.util.List;
+
 public class CarrinhoDto {
 	
 	Integer carrinho_id;
 	PessoaDto pessoa;
-	LivroDto livro;
-	int quantidade;
+	List<ItemCarrinhoDto> itens;
+	int quantidadeItens;
 	public Integer getCarrinho_id() {
 		return carrinho_id;
 	}
@@ -18,18 +20,20 @@ public class CarrinhoDto {
 	public void setPessoa(PessoaDto pessoa) {
 		this.pessoa = pessoa;
 	}
-	public LivroDto getLivro() {
-		return livro;
+	
+	public int getQuantidadeItens() {
+		return quantidadeItens;
 	}
-	public void setLivro(LivroDto livro) {
-		this.livro = livro;
+	public void setQuantidadeItens(int quantidadeItens) {
+		this.quantidadeItens = quantidadeItens;
 	}
-	public int getQuantidade() {
-		return quantidade;
+	public List<ItemCarrinhoDto> getItens() {
+		return itens;
 	}
-	public void setQuantidade(int quantidade) {
-		this.quantidade = quantidade;
+	public void setItens(List<ItemCarrinhoDto> itens) {
+		this.itens = itens;
 	}
+	
 	
 	
 	
