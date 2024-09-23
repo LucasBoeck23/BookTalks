@@ -27,6 +27,9 @@ public class PessoaService {
 	EnderecoService enderecoService;
 	
 	@Autowired
+	EmailService emailService;
+	
+	@Autowired
 	ModelMapper modelMapper;
 	
 	  public PessoaDto save(Pessoa pessoa) {
@@ -37,6 +40,13 @@ public class PessoaService {
 		  Carrinho carrinho = new Carrinho();
 		  carrinho.setPessoa(pessoaSalva);
 		  carrinhoRepository.save(carrinho);
+		  
+		  //EMAIL DE BEM VINDO
+			try {
+				emailService.emailBoasVindas(pessoa.getEmail(),"Boas Vindas", pessoa.getNome());
+			} catch (Exception e) {
+				System.out.println(e);
+			}
 		  
 		  return pessoaDto;
 	    }

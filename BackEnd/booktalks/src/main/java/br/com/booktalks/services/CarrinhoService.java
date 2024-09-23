@@ -3,7 +3,6 @@ package br.com.booktalks.services;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.cache.spi.support.AbstractReadWriteAccess.Item;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Service;
 import br.com.booktalks.dto.CarrinhoDto;
 import br.com.booktalks.dto.ItemCarrinhoDto;
 import br.com.booktalks.dto.LivroDto;
-import br.com.booktalks.dto.PessoaDto;
 import br.com.booktalks.entities.Carrinho;
 import br.com.booktalks.entities.ItemCarrinho;
 import br.com.booktalks.entities.Livro;
@@ -73,5 +71,16 @@ public class CarrinhoService {
 		CarrinhoDto	carrinhoDto = modelMapper.map(carrinho, CarrinhoDto.class);
 		carrinhoDto.setItens(itemCarrinhoDto);
 		return carrinhoDto;
+	}
+	
+	public ItemCarrinhoDto remover(Integer ItemProdutoId){
+		ItemCarrinho itemCarrinho = itemCarrinhoRepository.findById(ItemProdutoId).orElse(null);
+		if(itemCarrinho != null){
+			itemCarrinhoRepository.deleteById(ItemProdutoId);
+		}
+		ItemCarrinhoDto itemCarrinhoDto = modelMapper.map(itemCarrinho, ItemCarrinhoDto.class);
+		itemCarrinhoDto.setLivroDto(modelMapper.map(itemCarrinho.getLivro(), LivroDto.class));
+		return itemCarrinhoDto;
+		
 	}
 }
