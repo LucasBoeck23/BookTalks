@@ -31,8 +31,8 @@ public class FavoritoService {
 	ModelMapper modelMapper;
 	
 	public FavoritoDto favoritar(Integer publicacaoId, Integer pessoaId){
-	Pessoa pessoa = pessoaRepository.findById(pessoaId).orElse(null);
-	Publicacao publicacao = publicacaoRepository.findById(publicacaoId).orElse(null);
+	Pessoa pessoa = pessoaRepository.findById(pessoaId).orElseThrow(()-> new IllegalArgumentException("Pessoa não existente na base de dados"));
+	Publicacao publicacao = publicacaoRepository.findById(publicacaoId).orElseThrow(()-> new IllegalArgumentException("Publicação não existente na base de dados"));
 	Favorito favorito = new Favorito();	
 	List<Favorito> favoritoBanco = favoritoRepository.findAllFavoritosByPessoaId(pessoaId);
 	

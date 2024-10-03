@@ -1,6 +1,7 @@
 package br.com.booktalks.services;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import br.com.booktalks.dto.PessoaDto;
 import br.com.booktalks.entities.Carrinho;
 import br.com.booktalks.entities.Pessoa;
+import br.com.booktalks.messaging.RabbitMQProducer;
 import br.com.booktalks.repositories.CarrinhoRepository;
 import br.com.booktalks.repositories.PessoaRepository;
 
@@ -32,22 +34,31 @@ public class PessoaService {
 	@Autowired
 	ModelMapper modelMapper;
 	
+	@Autowired
+	RabbitMQProducer rabbitMQProducer;
+	
 	  public PessoaDto save(Pessoa pessoa) {
+		  int IdadeUsuario = Period.between(pessoa.getDataNascimento(), LocalDate.now()).getYears();
+		  if(IdadeUsuario<=13) {
+			  throw new IllegalArgumentException("O Usuario deve ter mais de 13 anos");
+		  }
+		  
 		  pessoa.setDataCriacao(LocalDate.now());
-		  Pessoa pessoaSalva = pessoaRepository.save(pessoa); 
-		  PessoaDto pessoaDto  = modelMapper.map(pessoaSalva, PessoaDto.class);
+		  pessoaRepository.save(pessoa); 
+		  
 		  
 		  Carrinho carrinho = new Carrinho();
-		  carrinho.setPessoa(pessoaSalva);
+		  carrinho.setPessoa(pessoa);
 		  carrinhoRepository.save(carrinho);
 		  
 		  //EMAIL DE BEM VINDO
-			try {
-				emailService.emailBoasVindas(pessoa.getEmail(),"Boas Vindas", pessoa.getNome());
+		  try {
+			    rabbitMQProducer.sendEmailBoasVindas(pessoa.getEmail(), "Boas Vindas ao BookTalks!", pessoa.getNome());
 			} catch (Exception e) {
-				System.out.println(e);
+			    System.out.println(e);
 			}
 		  
+			 PessoaDto pessoaDto  = modelMapper.map(pessoa, PessoaDto.class);
 		  return pessoaDto;
 	    }
 	
@@ -61,17 +72,13 @@ public class PessoaService {
 			return pessoaDto;
 		}
 		
-		public PessoaDto findById(Integer id){
-			Pessoa pessoa = pessoaRepository.findById(id).orElse(null);
+		public PessoaDto findById(Integer id) {
+			Pessoa pessoa = pessoaRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("Pessoa não existente na base de dados"));
 			return modelMapper.map(pessoa,PessoaDto.class);
 		}
 		
 		public PessoaDto update (Pessoa pessoa) {
-			Pessoa pessoabanco = pessoaRepository.findById(pessoa.getPessoa_id()).orElse(null);
-			
-			if(pessoabanco == null) {
-				return null;
-			}
+			Pessoa pessoabanco = pessoaRepository.findById(pessoa.getPessoa_id()).orElseThrow(()-> new IllegalArgumentException("Pessoa não existente na base de dados"));
 		
 			if(pessoa.getCargo().equals(null)) {
 				pessoa.setCargo(pessoabanco.getCargo());
@@ -104,11 +111,11 @@ public class PessoaService {
 		}
 		
 		public PessoaDto delete (Integer id) {
-			Pessoa pessoaDeletada = pessoaRepository.findById(id).orElse(null);
-			PessoaDto pessoaDeletadaDto = modelMapper.map(pessoaDeletada, PessoaDto.class);
+			Pessoa pessoaDeletada = pessoaRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("Pessoa não existente na base de dados"));
 			
 			if(pessoaDeletada != null) {
 				pessoaRepository.deleteById(id);
+				PessoaDto pessoaDeletadaDto = modelMapper.map(pessoaDeletada, PessoaDto.class);
 				return pessoaDeletadaDto;
 			}
 			return null;

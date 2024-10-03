@@ -51,7 +51,7 @@ public class PublicacaoService {
 	ModelMapper modelMapper;
 	
 	public PublicacaoDto save (Publicacao publicacao){
-		Optional<Pessoa> pessoa = pessoaRepository.findById(publicacao.getPessoa().getPessoa_id());
+		Pessoa pessoa = pessoaRepository.findById(publicacao.getPessoa().getPessoa_id()).orElseThrow(()-> new IllegalArgumentException("Pessoa não existente na base de dados"));
 		PessoaDto pessoaDto = new PessoaDto();
 		pessoaDto = modelMapper.map(pessoa, PessoaDto.class);
 		
@@ -74,19 +74,13 @@ public class PublicacaoService {
 	}
 	
 	public PublicacaoDto findById(Integer id) {
-		Publicacao publicacao = publicacaoRepository.findById(id).orElse(null);
-		if(publicacao == null) {
-			return null;
-		}
+		Publicacao publicacao = publicacaoRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("Publicação não existente na base de dados"));
 		return modelMapper.map(publicacao, PublicacaoDto.class);
 	}
 	
 	public PublicacaoDto update (Publicacao publicacao) {
-		Publicacao publicacaoBanco = publicacaoRepository.findById(publicacao.getPublicacao_id()).orElse(null);
-		
-		if(publicacaoBanco == null) {
-			return null;
-		}
+		Publicacao publicacaoBanco = publicacaoRepository.findById(publicacao.getPublicacao_id()).orElseThrow(()-> new IllegalArgumentException("Publicação não existente na base de dados"));
+	
 		if(publicacao.getPessoa() == null) {
 			publicacao.setPessoa(publicacaoBanco.getPessoa());
 		}
@@ -105,7 +99,7 @@ public class PublicacaoService {
 	}
 	
 	public PublicacaoDto delete (Integer id) {
-		Publicacao publicacaoDeletada = publicacaoRepository.findById(id).orElse(null);
+		Publicacao publicacaoDeletada = publicacaoRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("Publicação não existente na base de dados"));
 		PessoaDto pessoaDto = modelMapper.map(pessoaRepository.findById(publicacaoDeletada.getPessoa().getPessoa_id()), PessoaDto.class);
 		PublicacaoDto publicacaoDeletadaDto = modelMapper.map(publicacaoDeletada, PublicacaoDto.class);
 		

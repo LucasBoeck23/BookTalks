@@ -13,6 +13,7 @@ import br.com.booktalks.dto.PessoaDto;
 import br.com.booktalks.entities.Avaliacao;
 import br.com.booktalks.entities.Livro;
 import br.com.booktalks.entities.Pessoa;
+import br.com.booktalks.enums.Cargo;
 import br.com.booktalks.repositories.LivroRepository;
 import br.com.booktalks.repositories.PessoaRepository;
 
@@ -26,16 +27,28 @@ public class LivroService {
 	PessoaRepository pessoaRepository;
 	
 	@Autowired
+	EmailService emailService;
+	
+	
+	@Autowired
 	ModelMapper modelMapper;
 	
 	public LivroDto save(Livro livro){
-		Optional<Pessoa> pessoa = pessoaRepository.findById(livro.getAutor().getPessoa_id());
+		Pessoa pessoa = pessoaRepository.findById(livro.getAutor().getPessoa_id()).orElseThrow(()-> new IllegalArgumentException("Pessoa não existente na base de dados"));
 		PessoaDto pessoaDto = new PessoaDto();
+		pessoa.setCargo(Cargo.AUTOR);
 		pessoaDto = modelMapper.map(pessoa, PessoaDto.class);
 		livro.setAvaliacao(null);
 		Livro livroSalvo = livroRepository.save(livro);
 		LivroDto livroDto = modelMapper.map(livroSalvo, LivroDto.class);
 		livroDto.setAutor(pessoaDto);
+		
+		try {
+			emailService.emailPublicaLivro(pessoa.getEmail(),"Livro Publicado", pessoa.getNome());
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		
 		return livroDto;
 	}
 	
@@ -51,10 +64,7 @@ public class LivroService {
 	}
 	
 	public LivroDto findById(Integer id) {
-		Livro livro = livroRepository.findById(id).orElse(null);
-		if(livro == null) {
-			return null;
-		}
+		Livro livro = livroRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("Pessoa não existente na base de dados"));
 		return modelMapper.map(livro, LivroDto.class);
 	}
 	
@@ -69,11 +79,8 @@ public class LivroService {
 	}
 	
 	public LivroDto update (Livro livro) {
-		Livro livroBanco = livroRepository.findById(livro.getLivro_id()).orElse(null);
-		
-		if(livroBanco == null) {
-			return null;
-		}
+		Livro livroBanco = livroRepository.findById(livro.getLivro_id()).orElseThrow(()-> new IllegalArgumentException("Livro não existente na base de dados"));
+	
 		if(livro.getAutor() == null) {
 			livro.setAutor(livro.getAutor());
 		}
@@ -101,14 +108,10 @@ public class LivroService {
 		livroRepository.save(livro);
 		return modelMapper.map(livro, LivroDto.class);
 	}
-	
-	public LivroDto avaliar(Avaliacao avaliacao, Integer produtoId) {
-		
-		return null;
-	}
+
 	
 	public LivroDto delete (Integer id) {
-		Livro livroDeletado = livroRepository.findById(id).orElse(null);
+		Livro livroDeletado = livroRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("Livro não existente na base de dados"));
 		PessoaDto pessoaDto = modelMapper.map(pessoaRepository.findById(livroDeletado.getAutor().getPessoa_id()), PessoaDto.class);
 		LivroDto livroDeletadaDto = modelMapper.map(livroDeletado, LivroDto.class);
 		

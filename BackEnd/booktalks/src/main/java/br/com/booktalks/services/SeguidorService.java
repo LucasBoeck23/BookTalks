@@ -27,8 +27,8 @@ public class SeguidorService {
 	ModelMapper modelMapper;
 	
 	public SeguidorDto seguir (Integer pessoaId, Integer pessoaSeguidoraId) {
-		Pessoa pessoa = pessoaRepository.findById(pessoaId).orElse(null);
-		Pessoa pessoaSeguidora = pessoaRepository.findById(pessoaSeguidoraId).orElse(null);
+		Pessoa pessoa = pessoaRepository.findById(pessoaId).orElseThrow(()-> new IllegalArgumentException("Pessoa não existente na base de dados"));
+		Pessoa pessoaSeguidora = pessoaRepository.findById(pessoaSeguidoraId).orElseThrow(()-> new IllegalArgumentException("Seguidor não existente na base de dados"));
 		List<Seguidor> seguindoLista = seguidorRepository.findAllSeguindoByPessoaId(pessoaSeguidoraId);
 		Seguidor seguidor = new Seguidor();		
 		

@@ -13,6 +13,7 @@ import br.com.booktalks.dto.PublicacaoDto;
 import br.com.booktalks.entities.Like;
 import br.com.booktalks.entities.Pessoa;
 import br.com.booktalks.entities.Publicacao;
+import br.com.booktalks.messaging.RabbitMQProducer;
 import br.com.booktalks.repositories.LikeReposirory;
 import br.com.booktalks.repositories.PessoaRepository;
 import br.com.booktalks.repositories.PublicacaoRepository;
@@ -31,6 +32,7 @@ public class LikeService {
 	
 	@Autowired
 	PessoaRepository pessoaRepository;
+
 	
 	public List<LikeDto> findAllLike() {
 		List<Like> like = likeReposirory.findAll();
@@ -76,8 +78,8 @@ public class LikeService {
 	
 	
 	public LikeDto like (Integer pessoaId, Integer postId) {
-		Pessoa pessoa = pessoaRepository.findById(pessoaId).orElse(null);
-		Publicacao publicacao = publicacaoRepository.findById(postId).orElse(null);
+		Pessoa pessoa = pessoaRepository.findById(pessoaId).orElseThrow(()-> new IllegalArgumentException("Pessoa não existente na base de dados"));
+		Publicacao publicacao = publicacaoRepository.findById(postId).orElseThrow(()-> new IllegalArgumentException("Publicação não existente na base de dados"));
 		Like Novolike = new Like();
 		List<Like> likeBanco = likeReposirory.findAllLikesByPessoaId(pessoaId);
 		
@@ -95,6 +97,7 @@ public class LikeService {
 				publicacao.setPessoasCurtidas(pessoasPublicacaoCurtidas);
 				publicacao.setNumeroLikes(publicacao.getNumeroLikes()-1);
 				publicacaoRepository.save(publicacao);
+				
 				
 				return modelMapper.map(like, LikeDto.class);
 			}

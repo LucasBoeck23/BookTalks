@@ -47,8 +47,7 @@ public class AvaliacaoService {
 			
 			 return modelMapper.map(avaliacao, AvaliacaoDto.class);
 		}
-		
-		return null;
+		throw new IllegalArgumentException("Livro não encontrado");
 	}
 	
 	public List<AvaliacaoDto> findAllAvaliacoesByPessoaId (Integer pessoaId){
@@ -77,6 +76,6 @@ public class AvaliacaoService {
 			return modelMapper.map(avaliacao, AvaliacaoDto.class);
 		}
 		
-		return null;
+		 throw new IllegalArgumentException("Avaliação não encontrada");
 	}
 }

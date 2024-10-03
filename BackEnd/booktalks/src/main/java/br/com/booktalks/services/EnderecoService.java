@@ -54,16 +54,16 @@ public class EnderecoService {
 	    }
 
 	 public EnderecoDto findById(Integer id) {
-	Endereco endeco = enderecoRepository.findById(id).orElse(null);
+	Endereco endeco = enderecoRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("Endereço não encontrado ou não existente"));
 	EnderecoDto enderecoDto = modelMapper.map(endeco, EnderecoDto.class);
 	        return enderecoDto;
 	    }
 	 
     public EnderecoDto update(Endereco endereco) {
-    	Endereco enderecoBanco = enderecoRepository.findById(endereco.getEndereco_id()).orElse(null);
+    	Endereco enderecoBanco = enderecoRepository.findById(endereco.getEndereco_id()).orElseThrow(()-> new IllegalArgumentException("Endereço não existente na base de dados"));
     	Endereco enderecoViaCep = viaCepService.getCepInfo(endereco.getCep());
         if(enderecoBanco == null && endereco.getPessoa() == null) {
-        	return null;
+        	throw new IllegalArgumentException("Pessoa e Endereços Inexistentes");
         }
         if (endereco.getCep() == null) {
 			endereco.setCep(enderecoBanco.getCep());
@@ -96,8 +96,9 @@ public class EnderecoService {
                 System.out.println(e);
                 return null;
             }
+        } else {
+        	throw new IllegalArgumentException("Endereço não encontrado ou não existente");
         }
-        return null;
     }
 
     public List<Endereco> findByCep(String cep) {

@@ -32,8 +32,8 @@ public class RepublicadoService {
 	PublicacaoRepository publicacaoRepository;
 	
 	public RepublicadoDto republicar (Integer pessoaId ,Integer publicacaoId) {
-		Pessoa pessoa = pessoaRepository.findById(pessoaId).orElse(null);
-		Publicacao publicacao = publicacaoRepository.findById(publicacaoId).orElse(null);
+		Pessoa pessoa = pessoaRepository.findById(pessoaId).orElseThrow(()-> new IllegalArgumentException("Pessoa não existente na base de dados"));
+		Publicacao publicacao = publicacaoRepository.findById(publicacaoId).orElseThrow(()-> new IllegalArgumentException("Publicação não existente na base de dados"));
 		List<Republicado> republicacoesPessoa = republicadoRepository.findRepublicacoesByPessoaId(pessoaId);
 		Republicado novoRepublicado = new Republicado();
 		

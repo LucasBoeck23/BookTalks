@@ -35,6 +35,12 @@ public class ComentarioService {
 		Pessoa pessoa = pessoaRepository.findById(pessoaId).orElse(null);
 		Publicacao publicacao = publicacaoRepository.findById(publicacaoId).orElse(null);
 		
+		if(pessoa == null) {
+			throw new IllegalArgumentException("Pessoa nao existente");
+		} else if(publicacao == null) {
+			throw new IllegalArgumentException("Publicação nao existente");
+		}
+		
 		comentario.setPessoa(pessoa);
 		comentario.setPublicacao(publicacao);
 		
@@ -55,8 +61,9 @@ public class ComentarioService {
 		if(comentario.isPresent()) {
 			comentarioRepository.deleteById(comentarioId);
 			return modelMapper.map(comentario, ComentarioDto.class);
+		} else {
+			throw new IllegalArgumentException("Comentario não existente");
 		}
-		return null;
 	}
 	
 	public List<ComentarioDto> findAllComentarios(){
