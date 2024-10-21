@@ -1,6 +1,5 @@
-*{
-  border: 0;
+body {
   margin: 0;
-  font-family: 'Roboto', sans-serif;
-  color: #F8F8F8;
+  height: 100vh;
+  width: 100vw;
 }

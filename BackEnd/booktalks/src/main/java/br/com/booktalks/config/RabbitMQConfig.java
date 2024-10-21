@@ -13,8 +13,12 @@ public class RabbitMQConfig {
 
 
 	    @Bean
-	     Queue emailQueue() {
-	        return new Queue("email-queue", true);
+	     Queue emailBemVindoQueue() {
+	        return new Queue("email-BemVindo-queue", true);
+	    }
+	    @Bean
+	    Queue emailLivroPublicadoQueue() {
+	    	return new Queue("email-LivroPublicado-queue", true);
 	    }
 
 	    @Bean
@@ -23,8 +27,12 @@ public class RabbitMQConfig {
 	    }
 
 	    @Bean
-	     Binding emailBinding() {
-	        return BindingBuilder.bind(emailQueue()).to(directExchange()).with("email-queue");
+	     Binding emailBemVindoBinding() {
+	        return BindingBuilder.bind(emailBemVindoQueue()).to(directExchange()).with("email-BemVindo-queue");
+	    }
+	    @Bean
+	    Binding emailLivroPublicadoBinding() {
+	    	return BindingBuilder.bind(emailLivroPublicadoQueue()).to(directExchange()).with("email-LivroPublicado-queue");
 	    }
 
 }

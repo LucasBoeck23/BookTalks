@@ -16,7 +16,11 @@ public class RabbitMQProducer {
     }
     public void sendEmailBoasVindas(String email, String subject, String name) {
         String message[] = {email,subject,name}; 
-        rabbitTemplate.convertAndSend("direct-exchange", "email-queue", message);
+        rabbitTemplate.convertAndSend("direct-exchange", "email-BemVindo-queue", message);
+    }
+    public void sendEmailLivroPublicado(String email, String subject, String name) {
+    	String message[] = {email,subject,name}; 
+    	rabbitTemplate.convertAndSend("direct-exchange", "email-LivroPublicado-queue", message);
     }
 
 }

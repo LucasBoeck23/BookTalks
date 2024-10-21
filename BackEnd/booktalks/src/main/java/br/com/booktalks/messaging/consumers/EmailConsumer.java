@@ -17,13 +17,21 @@ public class EmailConsumer {
 	    }
 
     
-	    @RabbitListener(queues = "email-queue")
-	    public void consumeWelcomeEmailMessage(String message[]) throws MessagingException {
+	    @RabbitListener(queues = "email-BemVindo-queue")
+	    public void consumeEmailBoasVindas(String message[]) throws MessagingException {
 	        
 	        String destinatario = message[0];
 	        String assunto = message[1];
 	        String pessoaNome = message[2];
 	        emailService.emailBoasVindas(destinatario, assunto, pessoaNome);
+	    }
+	    @RabbitListener(queues = "email-LivroPublicado-queue")
+	    public void consumeEmailLivroPublicado(String message[]) throws MessagingException {
+	    	
+	    	String destinatario = message[0];
+	    	String assunto = message[1];
+	    	String pessoaNome = message[2];
+	    	emailService.emailPublicaLivro(destinatario, assunto, pessoaNome);
 	    }
 
 }

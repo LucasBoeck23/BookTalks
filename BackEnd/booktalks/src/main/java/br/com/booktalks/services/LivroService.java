@@ -14,6 +14,7 @@ import br.com.booktalks.entities.Avaliacao;
 import br.com.booktalks.entities.Livro;
 import br.com.booktalks.entities.Pessoa;
 import br.com.booktalks.enums.Cargo;
+import br.com.booktalks.messaging.RabbitMQProducer;
 import br.com.booktalks.repositories.LivroRepository;
 import br.com.booktalks.repositories.PessoaRepository;
 
@@ -28,6 +29,9 @@ public class LivroService {
 	
 	@Autowired
 	EmailService emailService;
+	
+	@Autowired
+	RabbitMQProducer mqProducer;
 	
 	
 	@Autowired
@@ -44,7 +48,7 @@ public class LivroService {
 		livroDto.setAutor(pessoaDto);
 		
 		try {
-			emailService.emailPublicaLivro(pessoa.getEmail(),"Livro Publicado", pessoa.getNome());
+			mqProducer.sendEmailLivroPublicado(pessoa.getEmail(),"Livro Publicado", pessoa.getNome());
 		} catch (Exception e) {
 			System.out.println(e);
 		}
